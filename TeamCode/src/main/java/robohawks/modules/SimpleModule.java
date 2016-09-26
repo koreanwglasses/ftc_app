@@ -7,21 +7,29 @@ import robohawks.modules.base.Drive;
 /**
  * Created by fchoi on 9/26/2016.
  */
-public class SimpleModule implements Operation {
-    // Required modules / base classes
-    private Drive drive;
-
-    public SimpleModule(Drive drive) {
+public class SimpleModule {
+    public SimpleModule() {
 
     }
 
-    @Override
-    public void start(Sequence.Callback callback) {
-
+    public Operation simple() {
+        return new SimpleOperation(this);
     }
 
-    @Override
-    public void loop(Sequence.Callback callback) {
+    public class SimpleOperation implements Operation {
+        private SimpleModule module;
+        private SimpleOperation(SimpleModule module) {
+            this.module = module;
+        }
 
+        @Override
+        public void start(Sequence.Callback callback) {
+
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+
+        }
     }
 }
