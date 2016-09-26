@@ -10,9 +10,9 @@ import java.util.List;
  * Created by fchoi on 9/25/2016.
  */
 public class Sequence {
-    private List<Module> actionQueue;
+    private List<Operation> actionQueue;
 
-    private Module currentAction;
+    private Operation currentAction;
     private boolean actionInProgress;
 
     private boolean paused;
@@ -29,7 +29,7 @@ public class Sequence {
         callback = new Callback(this);
     }
 
-    public Sequence then(Module action) {
+    public Sequence then(Operation action) {
         actionQueue.add(action);
         return this;
     }

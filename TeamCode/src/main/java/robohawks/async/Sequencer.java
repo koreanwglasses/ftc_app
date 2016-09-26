@@ -13,7 +13,7 @@ public class Sequencer{
         sequences = new ArrayList<>();
     }
 
-    public Sequence begin(Module action) {
+    public Sequence begin(Operation action) {
         Sequence sequence = new Sequence();
         sequence.then(action);
 
