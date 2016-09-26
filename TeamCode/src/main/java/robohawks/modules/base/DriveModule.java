@@ -12,14 +12,14 @@ import robohawks.async.error.OperationNotRunningException;
  * Created by fchoi on 9/25/2016.
  */
 // This is a "base" class, which is a combination of bindings and modules
-public class Drive {
+public class DriveModule {
     private DcMotor leftMotor;
     private DcMotor rightMotor;
 
     private boolean locked;
 
     // This initializes the bindings
-    public Drive(HardwareMap hwMap) {
+    public DriveModule(HardwareMap hwMap) {
         // Not implemented yet
     }
 
@@ -39,28 +39,28 @@ public class Drive {
 
     // This is a module
     private class TimeForward implements Operation {
-        private Drive drive;
+        private DriveModule driveModule;
         private double targetTime;
         private ElapsedTime runtime;
 
         private boolean running;
 
-        public TimeForward(Drive drive, double seconds) {
-            this.drive = drive;
+        public TimeForward(DriveModule driveModule, double seconds) {
+            this.driveModule = driveModule;
             this.runtime = new ElapsedTime();
             this.targetTime = runtime.time() + seconds;
         }
 
         @Override
         public void start(Sequence.Callback callback) {
-            if(drive.locked) {
+            if(driveModule.locked) {
                 callback.err(new DeviceLockedException(this));
             } else {
-                drive.locked = true;
+                driveModule.locked = true;
                 running = true;
 
-                drive.setPowerLeft(1);
-                drive.setPowerRight(1);
+                driveModule.setPowerLeft(1);
+                driveModule.setPowerRight(1);
             }
         }
 
@@ -73,8 +73,8 @@ public class Drive {
 
         public void stop(Sequence.Callback callback) {
             if(running) {
-                drive.locked = false;
-                drive.setPowerLeft(0);
+                driveModule.locked = false;
+                driveModule.setPowerLeft(0);
                 callback.next();
             } else {
                 callback.err(new OperationNotRunningException(this));

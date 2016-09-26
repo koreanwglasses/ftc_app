@@ -2,21 +2,23 @@ package robohawks.modules;
 
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
-import robohawks.modules.base.Drive;
+import robohawks.modules.base.DriveModule;
 
 /**
  * Created by fchoi on 9/26/2016.
  */
 public class SimpleModule {
-    public SimpleModule() {
+    private DriveModule driveModule;
 
+    public SimpleModule(DriveModule driveModule) {
+        this.driveModule = driveModule;
     }
 
     public Operation simple() {
         return new SimpleOperation(this);
     }
 
-    public class SimpleOperation implements Operation {
+    private class SimpleOperation implements Operation {
         private SimpleModule module;
         private SimpleOperation(SimpleModule module) {
             this.module = module;
