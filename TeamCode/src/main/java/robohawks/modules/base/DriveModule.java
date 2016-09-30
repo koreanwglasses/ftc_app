@@ -37,9 +37,50 @@ public class DriveModule {
         return new TimeForward(this, seconds);
     }
 
+    public Operation arc(double seconds, double leftPower, double rightPower) {
+        return new Arc(this, seconds, leftPower, rightPower);
+    }
+
+    private class Arc implements Operation {
+        private DriveModule drive;
+        private double seconds;
+        private double leftPower;
+        private double rightPower;
+        private ElapsedTime time;
+        private double targetTime;
+
+        public Arc (DriveModule drive, double seconds, double leftPower, double rightPower){
+            this.drive = drive;
+            this.seconds = seconds;
+            this.leftPower = leftPower;
+            this.rightPower = rightPower;
+            this.time = new ElapsedTime();
+        }
+
+        @Override
+        public void start(Sequence.Callback callback) {
+            if (drive.locked){
+                callback.err(new DeviceLockedException(this));
+            }else{
+                drive.locked = true;
+                targetTime = time.time() + seconds;
+                drive.setPowerLeft(leftPower);
+                drive.setPowerRight(rightPower);
+            }
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+            if (time.time() > targetTime) {
+                callback.next();
+            }
+        }
+    }
+
     // This is a module
     private class TimeForward implements Operation {
         private DriveModule driveModule;
+        private double seconds;
         private double targetTime;
         private ElapsedTime runtime;
 
@@ -48,7 +89,7 @@ public class DriveModule {
         public TimeForward(DriveModule driveModule, double seconds) {
             this.driveModule = driveModule;
             this.runtime = new ElapsedTime();
-            this.targetTime = runtime.time() + seconds;
+            this.seconds = seconds;
         }
 
         @Override
@@ -58,6 +99,8 @@ public class DriveModule {
             } else {
                 driveModule.locked = true;
                 running = true;
+
+                this.targetTime = runtime.time() + seconds;
 
                 driveModule.setPowerLeft(1);
                 driveModule.setPowerRight(1);
