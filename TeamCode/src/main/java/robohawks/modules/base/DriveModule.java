@@ -42,15 +42,16 @@ public class DriveModule {
     }
 
     private class Arc implements Operation {
-        private DriveModule drive;
+        private DriveModule driveModule;
         private double seconds;
         private double leftPower;
         private double rightPower;
         private ElapsedTime time;
         private double targetTime;
+        private boolean running;
 
-        public Arc (DriveModule drive, double seconds, double leftPower, double rightPower){
-            this.drive = drive;
+        public Arc (DriveModule driveModule, double seconds, double leftPower, double rightPower){
+            this.driveModule = driveModule;
             this.seconds = seconds;
             this.leftPower = leftPower;
             this.rightPower = rightPower;
@@ -59,20 +60,33 @@ public class DriveModule {
 
         @Override
         public void start(Sequence.Callback callback) {
-            if (drive.locked){
+            if (driveModule.locked){
                 callback.err(new DeviceLockedException(this));
             }else{
-                drive.locked = true;
+                driveModule.locked = true;
+                running = true;
                 targetTime = time.time() + seconds;
-                drive.setPowerLeft(leftPower);
-                drive.setPowerRight(rightPower);
+                driveModule.setPowerLeft(leftPower);
+                driveModule.setPowerRight(rightPower);
             }
         }
 
         @Override
         public void loop(Sequence.Callback callback) {
             if (time.time() > targetTime) {
+                stop(callback);
+            }
+        }
+
+        @Override
+        public void stop(Sequence.Callback callback) {
+            if(running) {
+                driveModule.locked = false;
+                driveModule.setPowerLeft(0);
+                driveModule.setPowerRight(0);
                 callback.next();
+            } else {
+                callback.err(new OperationNotRunningException(this));
             }
         }
     }
@@ -114,6 +128,7 @@ public class DriveModule {
             }
         }
 
+        @Override
         public void stop(Sequence.Callback callback) {
             if(running) {
                 driveModule.locked = false;

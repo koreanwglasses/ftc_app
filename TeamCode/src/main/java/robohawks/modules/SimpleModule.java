@@ -43,8 +43,14 @@ public class SimpleModule {
         }
 
         @Override
-        public void handleError(Sequence sequence, ErrorArgs error) {
+        public void stop(Sequence.Callback callback) {
+            inflectionSequence.terminate();
+            callback.next();
+        }
 
+        @Override
+        public void handleError(Sequence sequence, ErrorArgs error) {
+            System.out.println(error.message + " from " + error.sender.toString());
         }
     }
 }

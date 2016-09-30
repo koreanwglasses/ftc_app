@@ -11,8 +11,8 @@ public class SimpleController extends Controller{
 
     @Override
     protected void init(Sequencer sequencer) {
-        SimpleModule simpleModule = new SimpleModule();
-        DriveModule driveModuleModule = new DriveModule(null);
-        sequencer.begin(driveModuleModule.driveForward(2));
+        DriveModule driveModule = new DriveModule(null);
+        SimpleModule simpleModule = new SimpleModule(sequencer, driveModule);
+        sequencer.begin(driveModule.driveForward(2));
     }
 }
