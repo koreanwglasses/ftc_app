@@ -7,4 +7,6 @@ public interface Operation {
     void start(Sequence.Callback callback);
 
     void loop(Sequence.Callback callback);
+
+    void stop(Sequence.Callback callback);
 }

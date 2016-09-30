@@ -64,6 +64,7 @@ public class Sequence {
 
     public void terminate() {
         finished = true;
+        currentAction.stop(callback);
     }
 
     public boolean isFinished() {
