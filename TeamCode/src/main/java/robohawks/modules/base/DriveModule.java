@@ -32,16 +32,18 @@ public class DriveModule {
         rightMotor.setPower(power);
     }
 
-    // This encapsulates the module
-    public Operation driveForward(double seconds) {
-        return new TimeForward(this, seconds);
+    /**
+     * Creates an operation that drives the robot with control to the left and right power for 'second' seconds
+     * @param seconds the amount of time to drive in an arc in seconds
+     * @param leftPower the amount of power given to the left side
+     * @param rightPower the amount of power given to the right side
+     * @return an operation
+     */
+    public Operation drive(double seconds, double leftPower, double rightPower) {
+        return new Drive(this, seconds, leftPower, rightPower);
     }
 
-    public Operation arc(double seconds, double leftPower, double rightPower) {
-        return new Arc(this, seconds, leftPower, rightPower);
-    }
-
-    private class Arc implements Operation {
+    private class Drive implements Operation {
         private DriveModule driveModule;
         private double seconds;
         private double leftPower;
@@ -50,7 +52,7 @@ public class DriveModule {
         private double targetTime;
         private boolean running;
 
-        public Arc (DriveModule driveModule, double seconds, double leftPower, double rightPower){
+        public Drive(DriveModule driveModule, double seconds, double leftPower, double rightPower){
             this.driveModule = driveModule;
             this.seconds = seconds;
             this.leftPower = leftPower;
@@ -91,52 +93,4 @@ public class DriveModule {
         }
     }
 
-    // This is a module
-    private class TimeForward implements Operation {
-        private DriveModule driveModule;
-        private double seconds;
-        private double targetTime;
-        private ElapsedTime runtime;
-
-        private boolean running;
-
-        public TimeForward(DriveModule driveModule, double seconds) {
-            this.driveModule = driveModule;
-            this.runtime = new ElapsedTime();
-            this.seconds = seconds;
-        }
-
-        @Override
-        public void start(Sequence.Callback callback) {
-            if(driveModule.locked) {
-                callback.err(new DeviceLockedException(this));
-            } else {
-                driveModule.locked = true;
-                running = true;
-
-                this.targetTime = runtime.time() + seconds;
-
-                driveModule.setPowerLeft(1);
-                driveModule.setPowerRight(1);
-            }
-        }
-
-        @Override
-        public void loop(Sequence.Callback callback) {
-            if(runtime.time() > targetTime) {
-                stop(callback);
-            }
-        }
-
-        @Override
-        public void stop(Sequence.Callback callback) {
-            if(running) {
-                driveModule.locked = false;
-                driveModule.setPowerLeft(0);
-                callback.next();
-            } else {
-                callback.err(new OperationNotRunningException(this));
-            }
-        }
-    }
 }

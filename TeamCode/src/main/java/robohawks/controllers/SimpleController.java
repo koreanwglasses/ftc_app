@@ -13,6 +13,6 @@ public class SimpleController extends Controller{
     protected void init(Sequencer sequencer) {
         DriveModule driveModule = new DriveModule(null);
         SimpleModule simpleModule = new SimpleModule(sequencer, driveModule);
-        sequencer.begin(driveModule.driveForward(2));
+        sequencer.begin(driveModule.drive(2, 1, 1));
     }
 }
