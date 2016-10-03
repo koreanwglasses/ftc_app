@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fchoi on 9/25/2016.
+ * Sequencer objects drive sequences. To create a new sequence associated with an instance of Sequencer, use the begin method.
+ *
+ * Sequences in a sequencer will be iterated simultaneously when loop is called, which, in effect, allows for the easy execution of asynchronous tasks.
  */
 public class Sequencer{
     private List<Sequence> sequences;
@@ -13,6 +15,11 @@ public class Sequencer{
         sequences = new ArrayList<>();
     }
 
+    /**
+     * Create a new sequence
+     * @param action first operation
+     * @return the new sequence
+     */
     public Sequence begin(Operation action) {
         Sequence sequence = new Sequence();
         sequence.then(action);
