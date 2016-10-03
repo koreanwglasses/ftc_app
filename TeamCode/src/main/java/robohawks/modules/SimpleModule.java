@@ -7,9 +7,6 @@ import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
 import robohawks.modules.base.DriveModule;
 
-/**
- * Created by fchoi on 9/26/2016.
- */
 public class SimpleModule {
     private DriveModule driveModule;
     private Sequencer sequencer;
@@ -34,7 +31,7 @@ public class SimpleModule {
         @Override
         public void start(Sequence.Callback callback) {
             // Creating a sequence that first drives in an arc and then drives forward
-            inflectionSequence = module.sequencer.begin(module.driveModule.arc(1,.5, 1)).then(module.driveModule.arc(1, 1, .5));
+            inflectionSequence = module.sequencer.begin(module.driveModule.drive(1,.5, 1)).then(module.driveModule.drive(1, 1, .5));
             inflectionSequence.setErrorHandler(this);
         }
 
