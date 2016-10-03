@@ -33,17 +33,20 @@ public class SimpleModule {
 
         @Override
         public void start(Sequence.Callback callback) {
+            // Creating a sequence that first drives in an arc and then drives forward
             inflectionSequence = module.sequencer.begin(module.driveModule.arc(1,.5, 1)).then(module.driveModule.arc(1, 1, .5));
             inflectionSequence.setErrorHandler(this);
         }
 
         @Override
         public void loop(Sequence.Callback callback) {
+            // Goes on to the next operation in the sequence when 'inflectionSequence' is finished
             if(inflectionSequence.isFinished()) callback.next();
         }
 
         @Override
         public void stop(Sequence.Callback callback) {
+            // Aborting the sequence and going on to the next sequence
             inflectionSequence.terminate();
             callback.next();
         }

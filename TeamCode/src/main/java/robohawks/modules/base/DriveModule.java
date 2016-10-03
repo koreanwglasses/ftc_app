@@ -33,10 +33,23 @@ public class DriveModule {
     }
 
     // This encapsulates the module
+
+    /**
+     * Creates an operation that drives the robot forward for 'second' seconds
+     * @param seconds the amount of time to drive forward in seconds
+     * @return an operation
+     */
     public Operation driveForward(double seconds) {
         return new TimeForward(this, seconds);
     }
 
+    /**
+     * Creates an operation that drives the robot in an arc for 'second' seconds
+     * @param seconds the amount of time to drive in an arc in seconds
+     * @param leftPower the amount of power given to the left side
+     * @param rightPower the amount of power given to the right side
+     * @return an operation
+     */
     public Operation arc(double seconds, double leftPower, double rightPower) {
         return new Arc(this, seconds, leftPower, rightPower);
     }
