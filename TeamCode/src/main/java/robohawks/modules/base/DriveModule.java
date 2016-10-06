@@ -20,7 +20,11 @@ public class DriveModule {
 
     // This initializes the bindings
     public DriveModule(HardwareMap hwMap) {
-        // Not implemented yet
+        leftMotor = hwMap.dcMotor.get("leftDrive");
+        rightMotor = hwMap.dcMotor.get("rightDrive");
+
+        leftMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
     }
 
     // This is a binding

@@ -8,11 +8,9 @@ import robohawks.modules.base.DriveModule;
  * Created by fchoi on 9/26/2016.
  */
 public class SimpleController extends Controller{
-
     @Override
-    protected void init(Sequencer sequencer) {
-        DriveModule driveModule = new DriveModule(null);
-        SimpleModule simpleModule = new SimpleModule(sequencer, driveModule);
-        sequencer.begin(driveModule.drive(2, 1, 1));
+    public void init() {
+        DriveModule driveModule = new DriveModule(hardwareMap);
+        sequencer.begin(driveModule.drive(2, 1, 1)).then(driveModule.drive(2, 1, .5));
     }
 }
