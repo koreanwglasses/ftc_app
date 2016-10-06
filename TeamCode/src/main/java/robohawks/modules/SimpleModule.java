@@ -1,5 +1,6 @@
 package robohawks.modules;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.Sequencer;
