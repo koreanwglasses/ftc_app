@@ -61,9 +61,8 @@ import robohawks.controllers.SimpleController;
  */
 public class RegisterOpModes
 {
-
-  @OpModeRegistrar
-  public static void registerMyOpModes(OpModeManager manager) {
-    manager.register("Simple", SimpleController.class);
-  }
+    @OpModeRegistrar
+    public static void registerMyOpModes(OpModeManager manager) {
+        manager.register("Simple", SimpleController.class);
+    }
 }
