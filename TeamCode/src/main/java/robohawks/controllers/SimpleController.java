@@ -24,6 +24,6 @@ public class SimpleController extends Controller{
     public void loop() {
         super.loop();
 
-        if(mainSequence.isFinished()) requestOpModeStop();k
+        if(mainSequence.isFinished()) requestOpModeStop();
     }
 }

@@ -36,6 +36,11 @@ public class DriveModule {
         rightMotor.setPower(power);
     }
 
+    public void setHeading(double x, double z) {
+        setPowerLeft(z + x);
+        setPowerRight(z - x);
+    }
+
     /**
      * Creates an operation that drives the robot with control to the left and right power for 'second' seconds
      * @param seconds the amount of time to drive in an arc in seconds
