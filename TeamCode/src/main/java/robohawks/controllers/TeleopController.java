@@ -7,7 +7,7 @@ import robohawks.modules.base.DriveModule;
 /**
  * Created by fchoi on 10/13/2016.
  */
-@TeleOp
+@TeleOp(name="Basic", group ="Teleop")
 public class TeleopController extends Controller{
     DriveModule driveModule;
 
