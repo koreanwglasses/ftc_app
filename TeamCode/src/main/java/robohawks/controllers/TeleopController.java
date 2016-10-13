@@ -11,7 +11,12 @@ import robohawks.modules.base.DriveModule;
 public class TeleopController extends Controller{
     DriveModule driveModule;
 
-    float threshold = .1f;
+    double power;
+    boolean locked;
+
+    boolean lockedButtonState;
+
+    float threshold = .2f;
 
     @Override
     public void init() {
@@ -23,19 +28,28 @@ public class TeleopController extends Controller{
         super.loop();
 
         double x, z;
-        if(gamepad1.left_stick_x > threshold) {
+        if(Math.abs(gamepad1.left_stick_x) > threshold) {
             x = MathX.expScale(gamepad1.left_stick_x, 2);
         } else {
             x = 0;
         }
 
-        if(gamepad1.left_stick_y > threshold) {
+        if(Math.abs(gamepad1.left_stick_y) > threshold) {
             z = MathX.expScale(gamepad1.left_stick_y, 2);
         } else {
             z = 0;
         }
         driveModule.setHeading(x, z);
 
+        if(gamepad1.a != lockedButtonState && gamepad1.a)
+            locked = !locked;
+
+        if(!locked)
+            power = gamepad1.right_stick_y;
+
+        //TODO: LaunchModule
+
         telemetry.addData("Heading", x + ", " + z);
+        telemetry.addData("Power", power + (locked ? "*": ""));
     }
 }

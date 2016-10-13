@@ -1,7 +1,6 @@
 package robohawks.modules.base;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import robohawks.async.Operation;
@@ -30,15 +29,11 @@ public class DriveModule {
 
     // This is a binding
     public void setPowerLeft(double power) {
-        if(power > 0) leftMotor.setDirection(DcMotor.Direction.FORWARD);
-        else leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftMotor.setPower(Math.abs(power));
+        leftMotor.setPower(power);
     }
 
     public void setPowerRight(double power) {
-        if(power > 0) leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        else leftMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightMotor.setPower(Math.abs(power));
+        rightMotor.setPower(power);
     }
 
     public void setHeading(double x, double z) {
