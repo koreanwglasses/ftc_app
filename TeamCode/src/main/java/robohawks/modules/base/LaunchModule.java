@@ -16,6 +16,10 @@ public class LaunchModule {
         wheel = hwMap.dcMotor.get("launchWheel");
     }
 
+    public void setWheelPower(double power) {
+        wheel.setPower(power);
+    }
+
     private class Launch implements Operation {
 
         private LaunchModule launchModule;

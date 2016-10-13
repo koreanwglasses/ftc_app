@@ -3,6 +3,7 @@ package robohawks.controllers;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import robohawks.MathX;
 import robohawks.modules.base.DriveModule;
+import robohawks.modules.base.LaunchModule;
 
 /**
  * Created by fchoi on 10/13/2016.
@@ -10,8 +11,9 @@ import robohawks.modules.base.DriveModule;
 @TeleOp(name="Basic", group ="Teleop")
 public class TeleopController extends Controller{
     DriveModule driveModule;
+    LaunchModule launchModule;
 
-    double power;
+    double launchPower;
     boolean locked;
 
     boolean lockedButtonState;
@@ -21,6 +23,7 @@ public class TeleopController extends Controller{
     @Override
     public void init() {
         driveModule = new DriveModule(hardwareMap);
+        launchModule = new LaunchModule(hardwareMap);
     }
 
     @Override
@@ -43,13 +46,14 @@ public class TeleopController extends Controller{
 
         if(gamepad1.a != lockedButtonState && gamepad1.a)
             locked = !locked;
+        lockedButtonState = gamepad1.a;
 
         if(!locked)
-            power = gamepad1.right_stick_y;
+            launchPower = gamepad1.right_stick_y;
 
-        //TODO: LaunchModule
+        launchModule.setWheelPower(launchPower);
 
         telemetry.addData("Heading", x + ", " + z);
-        telemetry.addData("Power", power + (locked ? "*": ""));
+        telemetry.addData("Power", launchPower + (locked ? "*": ""));
     }
 }

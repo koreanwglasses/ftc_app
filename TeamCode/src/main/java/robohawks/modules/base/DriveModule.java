@@ -37,8 +37,8 @@ public class DriveModule {
     }
 
     public void setHeading(double x, double z) {
-        setPowerLeft(z + x);
-        setPowerRight(z - x);
+        setPowerLeft(z - x);
+        setPowerRight(z + x);
     }
 
     /**
