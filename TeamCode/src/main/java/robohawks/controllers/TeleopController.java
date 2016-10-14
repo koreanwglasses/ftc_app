@@ -46,7 +46,7 @@ public class TeleopController extends Controller{
             p -= MathX.expScale(gamepad1.left_trigger, 2);
         }
 
-        driveModule.setHeadingXZ(x, p);
+        driveModule.setHeadingXP(x, p);
 
         if(gamepad1.a != lockedButtonState && gamepad1.a)
             locked = !locked;
