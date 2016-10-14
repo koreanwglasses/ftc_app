@@ -36,9 +36,22 @@ public class DriveModule {
         rightMotor.setPower(power);
     }
 
-    public void setHeading(double x, double z) {
+    public void setHeadingXZ(double x, double z) {
         setPowerLeft(z - x);
         setPowerRight(z + x);
+    }
+
+    public void setHeadingXP(double x, double p) {
+        if(x < 0) {
+            setPowerLeft(p + p * x);
+            setPowerRight(p);
+        } else if(x > 0) {
+            setPowerRight(p - p * x);
+            setPowerLeft(p);
+        } else {
+            setPowerLeft(p);
+            setPowerRight(p);
+        }
     }
 
     /**

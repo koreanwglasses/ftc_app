@@ -30,19 +30,23 @@ public class TeleopController extends Controller{
     public void loop() {
         super.loop();
 
-        double x, z;
+        double x, p;
         if(Math.abs(gamepad1.left_stick_x) > threshold) {
             x = MathX.expScale(gamepad1.left_stick_x, 2);
         } else {
             x = 0;
         }
 
-        if(Math.abs(gamepad1.left_stick_y) > threshold) {
-            z = MathX.expScale(gamepad1.left_stick_y, 2);
+        if(Math.abs(gamepad1.right_trigger) > threshold) {
+            p = MathX.expScale(gamepad1.right_trigger, 2);
         } else {
-            z = 0;
+            p = 0;
         }
-        driveModule.setHeading(x, z);
+        if(Math.abs(gamepad1.left_trigger) > threshold) {
+            p -= MathX.expScale(gamepad1.left_trigger, 2);
+        }
+
+        driveModule.setHeadingXZ(x, p);
 
         if(gamepad1.a != lockedButtonState && gamepad1.a)
             locked = !locked;
@@ -53,7 +57,7 @@ public class TeleopController extends Controller{
 
         launchModule.setWheelPower(launchPower);
 
-        telemetry.addData("Heading", x + ", " + z);
+        telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Power", launchPower + (locked ? "*": ""));
     }
 }
