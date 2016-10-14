@@ -2,6 +2,7 @@ package robohawks.controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import robohawks.MathX;
+import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
 import robohawks.modules.base.LaunchModule;
 
@@ -13,10 +14,8 @@ public class TeleopController extends Controller{
     DriveModule driveModule;
     LaunchModule launchModule;
 
-    double launchPower;
-    boolean locked;
-
-    boolean lockedButtonState;
+    boolean launchButtonState;
+    Sequence launchSequence;
 
     float threshold = .2f;
 
@@ -45,19 +44,16 @@ public class TeleopController extends Controller{
         if(Math.abs(gamepad1.left_trigger) > threshold) {
             p -= MathX.expScale(gamepad1.left_trigger, 2);
         }
-
         driveModule.setHeadingXP(x, p);
 
-        if(gamepad1.a != lockedButtonState && gamepad1.a)
-            locked = !locked;
-        lockedButtonState = gamepad1.a;
-
-        if(!locked)
-            launchPower = gamepad1.right_stick_y;
-
-        launchModule.setWheelPower(launchPower);
+        if(launchSequence != null && launchSequence.isFinished()) {
+            launchSequence = null;
+        }
+        if(gamepad1.a != launchButtonState && gamepad1.a && launchSequence == null) {
+            launchSequence = sequencer.begin(launchModule.launch());
+        }
+        launchButtonState = gamepad1.a;
 
         telemetry.addData("Heading", x + ", " + p);
-        telemetry.addData("Power", launchPower + (locked ? "*": ""));
     }
 }

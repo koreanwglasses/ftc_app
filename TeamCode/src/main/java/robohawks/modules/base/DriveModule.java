@@ -42,11 +42,11 @@ public class DriveModule {
     }
 
     public void setHeadingXP(double x, double p) {
-        if(x < 0) {
-            setPowerLeft(p + p * x);
+        if(x > 0) {
+            setPowerLeft(p - p * x);
             setPowerRight(p);
-        } else if(x > 0) {
-            setPowerRight(p - p * x);
+        } else if(x < 0) {
+            setPowerRight(p + p * x);
             setPowerLeft(p);
         } else {
             setPowerLeft(p);

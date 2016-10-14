@@ -3,8 +3,12 @@ package robohawks.modules.base;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import robohawks.MathX;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
+import robohawks.async.Sequencer;
+import robohawks.async.error.DeviceLockedException;
 
 /**
  * Created by fchoi on 10/13/2016.
@@ -12,35 +16,60 @@ import robohawks.async.Sequence;
 public class LaunchModule {
     private DcMotor wheel;
 
+    private boolean locked;
+
     public LaunchModule(HardwareMap hwMap) {
         wheel = hwMap.dcMotor.get("launchWheel");
+        wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setWheelPower(double power) {
         wheel.setPower(power);
     }
 
-    private class Launch implements Operation {
+    public Operation launch() {
+        return new Launch(this);
+    }
 
+    private class Launch implements Operation {
         private LaunchModule launchModule;
+        private ElapsedTime time;
+
+        private double initialTime;
 
         public Launch(LaunchModule launchModule) {
             this.launchModule = launchModule;
+            this.time = new ElapsedTime();
         }
 
         @Override
         public void start(Sequence.Callback callback) {
+            if(launchModule.locked) {
+                callback.err(new DeviceLockedException(this));
+            } else {
+                launchModule.locked = true;
+                launchModule.setWheelPower(1);
 
+                initialTime = time.milliseconds();
+            }
         }
 
         @Override
         public void loop(Sequence.Callback callback) {
-
+            double dtime = time.milliseconds() - initialTime;
+            if(dtime > 8000) {
+                stop(callback);
+            } else if(dtime > 4000) {
+                double pow = 1 - MathX.expScale((dtime - 4000) / 4000, .4);
+                launchModule.setWheelPower(pow);
+            }
         }
 
         @Override
         public void stop(Sequence.Callback callback) {
-
+            launchModule.locked = false;
+            launchModule.setWheelPower(0);
+            callback.next();
         }
     }
 }
