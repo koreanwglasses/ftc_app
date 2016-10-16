@@ -9,7 +9,7 @@ import robohawks.modules.base.LaunchModule;
 /**
  * Created by fchoi on 10/13/2016.
  */
-@TeleOp(name="Branch", group ="Teleop")
+@TeleOp(name="Master", group ="Teleop")
 public class MasterTeleopController extends Controller{
     DriveModule driveModule;
 
@@ -26,7 +26,7 @@ public class MasterTeleopController extends Controller{
 
         double x, p;
         if(Math.abs(gamepad1.left_stick_x) > threshold) {
-            x = MathX.expScale(gamepad1.left_stick_x, 2);
+            x = MathX.expScale(gamepad1.left_stick_x, .8);
         } else {
             x = 0;
         }
