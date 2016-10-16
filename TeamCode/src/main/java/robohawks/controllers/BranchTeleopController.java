@@ -9,8 +9,8 @@ import robohawks.modules.base.LaunchModule;
 /**
  * Created by fchoi on 10/13/2016.
  */
-@TeleOp(name="Basic", group ="Teleop")
-public class TeleopController extends Controller{
+@TeleOp(name="Branch", group ="Teleop")
+public class BranchTeleopController extends Controller{
     DriveModule driveModule;
     LaunchModule launchModule;
 
