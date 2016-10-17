@@ -9,7 +9,7 @@ import robohawks.async.Sequence;
 import robohawks.async.error.DeviceLockedException;
 
 /**
- * This module launches stuff --Fred Choi 2016.
+ * This module launches stuff --Fred Choi 2016
  */
 public class LaunchModule {
     private DcMotor motor1;
