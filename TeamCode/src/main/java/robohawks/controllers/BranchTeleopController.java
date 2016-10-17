@@ -17,7 +17,7 @@ public class BranchTeleopController extends Controller{
     boolean launchButtonState;
     Sequence launchSequence;
 
-    float threshold = .2f;
+    float threshold = .1f;
 
     @Override
     public void init() {
@@ -31,7 +31,7 @@ public class BranchTeleopController extends Controller{
 
         double x, p;
         if(Math.abs(gamepad1.left_stick_x) > threshold) {
-            x = MathX.expScale(gamepad1.left_stick_x, 2);
+            x = MathX.expScale(gamepad1.left_stick_x, .8);
         } else {
             x = 0;
         }
