@@ -1,30 +1,32 @@
 package robohawks.modules.base;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import robohawks.MathX;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
-import robohawks.async.Sequencer;
 import robohawks.async.error.DeviceLockedException;
 
 /**
  * Created by fchoi on 10/13/2016.
  */
 public class LaunchModule {
-    private DcMotor wheel;
+    private DcMotor motor1;
+    private DcMotor motor2;
 
     private boolean locked;
 
     public LaunchModule(HardwareMap hwMap) {
-        wheel = hwMap.dcMotor.get("launchWheel");
-        wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motor1 = hwMap.dcMotor.get("launchMotorWheel1");
+        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motor2 = hwMap.dcMotor.get("launchMotorWheel2");
+        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setWheelPower(double power) {
-        wheel.setPower(power);
+        motor1.setPower(power);
+        motor2.setPower(-power);
     }
 
     public Operation launch() {
