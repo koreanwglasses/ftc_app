@@ -3,7 +3,7 @@ package robohawks.modules.base;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import robohawks.MathX;
+import robohawks.utils.MathX;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.error.DeviceLockedException;

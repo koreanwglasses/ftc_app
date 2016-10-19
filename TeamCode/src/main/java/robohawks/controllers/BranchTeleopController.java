@@ -1,7 +1,7 @@
 package robohawks.controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import robohawks.MathX;
+import robohawks.utils.MathX;
 import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
 import robohawks.modules.base.LaunchModule;

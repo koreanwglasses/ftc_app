@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.error.DeviceLockedException;
+import robohawks.utils.Color;
 
 /**
  * Attempt to make a module myself --Paarth Tandon
@@ -16,45 +17,15 @@ import robohawks.async.error.DeviceLockedException;
 public class ColorModule {
     private ColorSensor colorSensor1;
 
-    private boolean locked;
-
     public ColorModule(HardwareMap hardwareMap){
         colorSensor1 = hardwareMap.colorSensor.get("colorSensor1");
     }
 
-    public Operation getColor() {return new GetColor(this);}
+// This "Operation" is just a method—it's instant, and it returns a value. There is no point in making it an asynchronous operation
+//    public Operation getColor() {return new GetColor(this);}
 
-    private class GetColor implements Operation{
-        private ColorModule colorModule;
-        private ArrayList color = new ArrayList();
-
-        public GetColor(ColorModule colorModule){
-            this.colorModule = colorModule;
-        }
-
-        @Override
-        public void start(Sequence.Callback callback) {
-            if (colorModule.locked){
-                callback.err(new DeviceLockedException(this));
-            } else {
-                colorModule.locked = true;
-                color.add(colorSensor1.red());
-                color.add(colorSensor1.green());
-                color.add(colorSensor1.blue());
-                DbgLog.msg(color.toString());
-            }
-        }
-
-        @Override
-        public void loop(Sequence.Callback callback) {
-
-        }
-
-        @Override
-        public void stop(Sequence.Callback callback) {
-            colorModule.locked = false;
-            callback.next();
-        }
+    public Color getColor() {
+        return getColor().fromArgb(colorSensor1.argb());
     }
 
 }

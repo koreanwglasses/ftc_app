@@ -11,19 +11,18 @@ import robohawks.modules.base.ColorModule;
 
 @Autonomous(name="color", group="Sample")
 public class ColorSensorController extends Controller {
-    Sequence colorSequence;
+    ColorModule colorModule;
 
     @Override
     public void init() {
-        ColorModule colorModule = new ColorModule(hardwareMap);
-        colorSequence = sequencer.begin(colorModule.getColor());
+        this.colorModule = new ColorModule(hardwareMap);
     }
 
     @Override
     public void loop() {
         super.loop();
 
-        if (colorSequence.isFinished()) requestOpModeStop();
+        telemetry.addData("Color", colorModule.getColor());
     }
 
 }
