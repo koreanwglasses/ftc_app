@@ -25,7 +25,7 @@ public class ColorModule {
 //    public Operation getColor() {return new GetColor(this);}
 
     public Color getColor() {
-        return getColor().fromArgb(colorSensor1.argb());
+        return Color.fromArgb(colorSensor1.argb());
     }
 
 }
