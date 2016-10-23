@@ -16,6 +16,7 @@ public class ColorSensorController extends Controller {
     @Override
     public void init() {
         this.colorModule = new ColorModule(hardwareMap);
+        colorModule.setLight(false);
     }
 
     @Override

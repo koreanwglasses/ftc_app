@@ -28,4 +28,7 @@ public class ColorModule {
         return Color.fromArgb(colorSensor1.argb());
     }
 
+    public void setLight(boolean lightOn) {
+        colorSensor1.enableLed(lightOn);
+    }
 }
