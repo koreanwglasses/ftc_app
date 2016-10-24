@@ -1,14 +1,8 @@
 package robohawks.modules.base;
 
-import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import java.util.ArrayList;
-
-import robohawks.async.Operation;
-import robohawks.async.Sequence;
-import robohawks.async.error.DeviceLockedException;
 import robohawks.utils.Color;
 
 /**

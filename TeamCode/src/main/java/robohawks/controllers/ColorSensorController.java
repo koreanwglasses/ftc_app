@@ -2,7 +2,6 @@ package robohawks.controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import robohawks.async.Sequence;
 import robohawks.modules.base.ColorModule;
 
 /**
