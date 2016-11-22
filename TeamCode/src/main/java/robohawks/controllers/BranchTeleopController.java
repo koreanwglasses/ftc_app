@@ -50,7 +50,7 @@ public class BranchTeleopController extends Controller{
             launchSequence = null;
         }
         if(gamepad1.a != launchButtonState && gamepad1.a && launchSequence == null) {
-            launchSequence = sequencer.begin(launchModule.launch());
+            launchSequence = sequencer.begin(launchModule.launch(1000));
         }
         launchButtonState = gamepad1.a;
 

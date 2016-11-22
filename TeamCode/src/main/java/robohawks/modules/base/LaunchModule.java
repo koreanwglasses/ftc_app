@@ -14,6 +14,7 @@ import robohawks.async.error.DeviceLockedException;
 public class LaunchModule {
     private DcMotor motor1;
     private DcMotor motor2;
+    private DcMotor feedMotor;
 
     private boolean locked;
 
@@ -22,6 +23,12 @@ public class LaunchModule {
         motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motor2 = hwMap.dcMotor.get("launchMotorWheel2");
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        feedMotor = hwMap.dcMotor.get("launchFeedMotor");
+        feedMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void setFeedPower(double power) {
+        feedMotor.setPower(power);
     }
 
     public void setWheelPower(double power) {
@@ -29,8 +36,8 @@ public class LaunchModule {
         motor2.setPower(-power);
     }
 
-    public Operation launch() {
-        return new Launch(this);
+    public Operation launch(double feedTime) {
+        return new Launch(this, feedTime);
     }
 
     private class Launch implements Operation {
@@ -38,9 +45,11 @@ public class LaunchModule {
         private ElapsedTime time;
 
         private double initialTime;
+        private double feedTime;
 
-        public Launch(LaunchModule launchModule) {
+        public Launch(LaunchModule launchModule, double feedTime) {
             this.launchModule = launchModule;
+            this.feedTime = feedTime;
             this.time = new ElapsedTime();
         }
 
@@ -59,11 +68,15 @@ public class LaunchModule {
         @Override
         public void loop(Sequence.Callback callback) {
             double dtime = time.milliseconds() - initialTime;
-            if(dtime > 8000) {
+            if(dtime > 6000 + feedTime) {
                 stop(callback);
-            } else if(dtime > 4000) {
-                double pow = 1 - MathX.expScale((dtime - 4000) / 4000, .4);
+            } else if(dtime > 2000 + feedTime) {
+                double pow = 1 - MathX.expScale((dtime - 2000 - feedTime) / 4000, .4);
                 launchModule.setWheelPower(pow);
+            } else if(dtime > 1000 + feedTime) {
+                launchModule.setFeedPower(0);
+            } else if(dtime > 1000) {
+                launchModule.setFeedPower(.2);
             }
         }
 
@@ -71,6 +84,7 @@ public class LaunchModule {
         public void stop(Sequence.Callback callback) {
             launchModule.locked = false;
             launchModule.setWheelPower(0);
+            launchModule.setFeedPower(0);
             callback.next();
         }
     }
