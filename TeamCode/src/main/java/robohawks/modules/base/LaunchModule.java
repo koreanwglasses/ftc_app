@@ -15,6 +15,7 @@ public class LaunchModule {
     private DcMotor motor1;
     private DcMotor motor2;
     private DcMotor feedMotor;
+    private DcMotor collectMotor;
 
     private boolean locked;
 
@@ -24,7 +25,9 @@ public class LaunchModule {
         motor2 = hwMap.dcMotor.get("launchMotorWheel2");
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         feedMotor = hwMap.dcMotor.get("launchFeedMotor");
-        feedMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        feedMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        collectMotor = hwMap.dcMotor.get("collectMotor");
+        collectMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setFeedPower(double power) {
@@ -52,6 +55,7 @@ public class LaunchModule {
         private double loadTime;
 
         public Load(LaunchModule launchModule, double loadTime) {
+
             this.launchModule = launchModule;
             this.loadTime = loadTime;
 
@@ -60,17 +64,28 @@ public class LaunchModule {
 
         @Override
         public void start(Sequence.Callback callback) {
+            if(launchModule.locked == true){
+                callback.err(new DeviceLockedException(this));
+            } else {
+                launchModule.locked = true;
+                collectMotor.setPower(1);
 
+                initialTime = time.milliseconds();
+            }
         }
 
         @Override
         public void loop(Sequence.Callback callback) {
-
+            if(time.milliseconds() > initialTime + loadTime){
+                stop(callback);
+            }
         }
 
         @Override
         public void stop(Sequence.Callback callback) {
-
+            collectMotor.setPower(0);
+            launchModule.locked = false;
+            callback.next();
         }
     }
 
