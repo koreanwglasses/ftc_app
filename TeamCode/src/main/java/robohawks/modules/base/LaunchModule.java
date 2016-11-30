@@ -36,8 +36,42 @@ public class LaunchModule {
         motor2.setPower(-power);
     }
 
+    public Operation load(double loadTime) {
+        return new Load(this, loadTime);
+    }
+
     public Operation launch(double feedTime) {
         return new Launch(this, feedTime);
+    }
+
+    private class Load implements Operation {
+        private LaunchModule launchModule;
+        private ElapsedTime time;
+
+        private double initialTime;
+        private double loadTime;
+
+        public Load(LaunchModule launchModule, double loadTime) {
+            this.launchModule = launchModule;
+            this.loadTime = loadTime;
+
+            this.time = new ElapsedTime();
+        }
+
+        @Override
+        public void start(Sequence.Callback callback) {
+
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+
+        }
+
+        @Override
+        public void stop(Sequence.Callback callback) {
+
+        }
     }
 
     private class Launch implements Operation {
