@@ -9,20 +9,20 @@ import robohawks.utils.Color;
  * Attempt to make a module myself --Paarth Tandon
  */
 public class ColorModule {
-    private ColorSensor colorSensor1;
+    private ColorSensor buttonSensor1;
 
     public ColorModule(HardwareMap hardwareMap){
-        colorSensor1 = hardwareMap.colorSensor.get("colorSensor1");
+        buttonSensor1 = hardwareMap.colorSensor.get("buttonSensor");
     }
 
 // This "Operation" is just a method—it's instant, and it returns a value. There is no point in making it an asynchronous operation
 //    public Operation getColor() {return new GetColor(this);}
 
     public Color getColor() {
-        return Color.fromArgb(colorSensor1.argb());
+        return Color.fromArgb(buttonSensor1.argb());
     }
 
     public void setLight(boolean lightOn) {
-        colorSensor1.enableLed(lightOn);
+        buttonSensor1.enableLed(lightOn);
     }
 }
