@@ -15,7 +15,7 @@ public class LaunchModule {
     private DcMotor motor1;
     private DcMotor motor2;
     private DcMotor feedMotor;
-    private DcMotor collectMotor;
+    private DcMotor loadMotor;
 
     private boolean locked;
 
@@ -26,8 +26,8 @@ public class LaunchModule {
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         feedMotor = hwMap.dcMotor.get("launchFeedMotor");
         feedMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        collectMotor = hwMap.dcMotor.get("collectMotor");
-        collectMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        loadMotor = hwMap.dcMotor.get("loadMotor");
+        loadMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setFeedPower(double power) {
@@ -39,8 +39,20 @@ public class LaunchModule {
         motor2.setPower(-power);
     }
 
+    public void setLoadPower(double power) {
+        loadMotor.setPower(power);
+    }
+
+    public double getLoadPower() {
+        return loadMotor.getPower();
+    }
+
     public Operation load(double loadTime) {
         return new Load(this, loadTime);
+    }
+
+    public Operation loadDecel() {
+        return new LoadDecel(this);
     }
 
     public Operation launch(double feedTime) {
@@ -55,7 +67,6 @@ public class LaunchModule {
         private double loadTime;
 
         public Load(LaunchModule launchModule, double loadTime) {
-
             this.launchModule = launchModule;
             this.loadTime = loadTime;
 
@@ -68,7 +79,7 @@ public class LaunchModule {
                 callback.err(new DeviceLockedException(this));
             } else {
                 launchModule.locked = true;
-                collectMotor.setPower(1);
+                launchModule.setLoadPower(1);
 
                 initialTime = time.milliseconds();
             }
@@ -83,8 +94,47 @@ public class LaunchModule {
 
         @Override
         public void stop(Sequence.Callback callback) {
-            collectMotor.setPower(0);
+            launchModule.setLoadPower(0);
             launchModule.locked = false;
+            callback.next();
+        }
+    }
+
+    private class LoadDecel implements Operation {
+        private LaunchModule launchModule;
+        private ElapsedTime time;
+
+        private double targetTime;
+
+        public LoadDecel(LaunchModule launchModule) {
+            this.launchModule = launchModule;
+            this.time = new ElapsedTime();
+        }
+
+        @Override
+        public void start(Sequence.Callback callback) {
+            if(launchModule.locked) {
+                callback.err(new DeviceLockedException(this));
+            } else {
+                launchModule.locked = true;
+
+                targetTime = time.milliseconds() + 3000 * launchModule.getLoadPower();
+            }
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+            if(time.milliseconds() > targetTime) {
+                stop(callback);
+            } else {
+                launchModule.setLoadPower((targetTime - time.milliseconds()) / 3000.0);
+            }
+        }
+
+        @Override
+        public void stop(Sequence.Callback callback) {
+            launchModule.locked = false;
+            launchModule.setLoadPower(0);
             callback.next();
         }
     }

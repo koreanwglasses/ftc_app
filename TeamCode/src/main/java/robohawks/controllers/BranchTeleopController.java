@@ -17,6 +17,9 @@ public class BranchTeleopController extends Controller{
     boolean launchButtonState;
     Sequence launchSequence;
 
+    boolean loadButtonState;
+    Sequence loadDecelSequence;
+
     float threshold = .1f;
 
     @Override
@@ -46,6 +49,8 @@ public class BranchTeleopController extends Controller{
         }
         driveModule.setHeadingXP(x, p);
 
+        // Launch
+
         if(launchSequence != null && launchSequence.isFinished()) {
             launchSequence = null;
         }
@@ -53,6 +58,23 @@ public class BranchTeleopController extends Controller{
             launchSequence = sequencer.begin(launchModule.launch(1000));
         }
         launchButtonState = gamepad1.a;
+
+        // Feed
+
+        if(gamepad1.b) {
+            launchModule.setLoadPower(1);
+
+            if(launchSequence != null) {
+                launchSequence.terminate();
+                launchSequence = null;
+            }
+        }
+        if (!gamepad1.b && launchButtonState) {
+            if(launchSequence != null) {
+                launchSequence = sequencer.begin(launchModule.loadDecel());
+            }
+        }
+        launchButtonState = gamepad1.b;
 
         telemetry.addData("Heading", x + ", " + p);
     }
