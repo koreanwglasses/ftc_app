@@ -71,47 +71,43 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         launchButtonState = gamepad1.a;
 
         // Un-Feed
-        if(gamepad1.y) {
+        if(gamepad2.left_trigger > 0.5) {
             launchModule.setFeedPower(0.2);
         } else {
-            if(!gamepad1.x) {
+            if(gamepad2.right_trigger <= 0.5) {
                 launchModule.setFeedPower(0);
             }
         }
 
-        if(gamepad1.x) {
+        if(gamepad2.right_trigger > 0.5) {
             launchModule.setFeedPower(-0.2);
         } else {
-            if(!gamepad1.y) {
+            if(gamepad2.left_trigger <= 0.5) {
                 launchModule.setFeedPower(0);
             }
         }
 
-        // Feed
+        // Load
 
-        if(gamepad1.b && !loadButtonState) {
+        if((gamepad1.y || gamepad1.x) && !loadButtonState) {
             if(loadDecelSequence != null) {
                 loadDecelSequence.terminate();
                 loadDecelSequence = null;
             }
 
-            launchModule.setLoadPower(1);
+            launchModule.setLoadPower(gamepad1.y ? 1 : -1);
         }
-        if (!gamepad1.b && loadButtonState) {
+        if (!(gamepad1.y || gamepad1.x) && loadButtonState) {
             if(loadDecelSequence != null) {
                 loadDecelSequence.terminate();
             }
             loadDecelSequence = sequencer.begin(launchModule.loadDecel());
             loadDecelSequence.setErrorHandler(this);
         }
-        loadButtonState = gamepad1.b;
+        loadButtonState = (gamepad1.y || gamepad1.x);
 
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Locked", launchModule.isLocked());
-        telemetry.addData("test", loadDecelSequence == null);
-        if (loadDecelSequence != null) {
-            telemetry.addData("test1", loadDecelSequence.isFinished());
-        }
     }
 
     @Override

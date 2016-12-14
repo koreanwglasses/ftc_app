@@ -130,7 +130,7 @@ public class LaunchModule {
             } else {
 //                launchModule.locked = true;
 
-                targetTime = time.milliseconds() + 3000 * launchModule.getLoadPower();
+                targetTime = time.milliseconds() + 3000 * Math.abs(launchModule.getLoadPower());
             }
         }
 
@@ -139,7 +139,7 @@ public class LaunchModule {
             if(time.milliseconds() > targetTime) {
                 stop(callback);
             } else {
-                launchModule.setLoadPower((targetTime - time.milliseconds()) / 3000.0);
+                launchModule.setLoadPower(Math.signum(launchModule.getLoadPower()) * (targetTime - time.milliseconds()) / 3000.0);
             }
         }
 
@@ -216,8 +216,6 @@ public class LaunchModule {
             if(launchModule.locked) {
                 callback.err(new DeviceLockedException(this));
             } else {
-//                launchModule.locked = true;
-
                 targetTime = time.milliseconds() + 3000 * launchModule.getLaunchPower();
             }
         }
@@ -233,7 +231,6 @@ public class LaunchModule {
 
         @Override
         public void stop(Sequence.Callback callback) {
-//            launchModule.locked = false;
             launchModule.setWheelPower(0);
             callback.next();
         }

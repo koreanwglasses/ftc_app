@@ -6,6 +6,7 @@ import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.modules.base.ButtonModule;
 import robohawks.modules.base.ColorModule;
+import robohawks.modules.base.DriveModule;
 import robohawks.sequences.ButtonSequence;
 import robohawks.utils.Color;
 
@@ -17,6 +18,7 @@ import robohawks.utils.Color;
 public class ButtonController extends Controller{
     ButtonModule buttonModule;
     ColorModule colorModule;
+    DriveModule driveModule;
 
     Operation lineSequence;
     ButtonSequence buttonSequence;
@@ -27,8 +29,9 @@ public class ButtonController extends Controller{
     public void init() {
         buttonModule = new ButtonModule(hardwareMap);
         colorModule = new ColorModule(hardwareMap);
+        driveModule = new DriveModule(hardwareMap);
 
-        buttonSequence = new ButtonSequence(sequencer, buttonModule, colorModule, true);
+        buttonSequence = new ButtonSequence(sequencer, driveModule, buttonModule, colorModule, true);
 
         sequence = sequencer.begin(lineSequence).then(buttonSequence);
     }

@@ -38,18 +38,31 @@ public class ButtonSequence implements Operation {
     public void start(Sequence.Callback callback) {
         seesRednotBlue = colorModule.isRednotBlue();
 
-        sequence = sequencer.begin(driveModule.drive(2, -0.5, -0.5)).then(new SimpleOperation() {
-            @Override
-            public void start(Sequence.Callback callback) {
-                if(seesRednotBlue == rednotBlue) {
-                    buttonModule.setServo1(true);
-                    buttonModule.setServo2(false);
-                } else {
-                    buttonModule.setServo2(true);
+        sequence = sequencer
+            .begin(driveModule.drive(2, -0.5, -0.5))
+            .then(new SimpleOperation() {
+                @Override
+                public void start(Sequence.Callback callback) {
+                    if(seesRednotBlue == rednotBlue) {
+                        buttonModule.setServo1(true);
+                        buttonModule.setServo2(false);
+                    } else {
+                        buttonModule.setServo2(true);
+                        buttonModule.setServo1(false);
+                    }
+                }
+            })
+            .then(driveModule.drive(2.5, 0.5, 0.5))
+            .then(driveModule.drive(0.5, 0.0, 0.0))
+            .then(driveModule.drive(1, -0.5, -0.5))
+            .then(new SimpleOperation() {
+                @Override
+                public void start(Sequence.Callback callback) {
                     buttonModule.setServo1(false);
+                    buttonModule.setServo2(false);
                 }
             }
-        }).then(driveModule.drive(2.5, 0.5, 0.5));
+        );
     }
 
     @Override
