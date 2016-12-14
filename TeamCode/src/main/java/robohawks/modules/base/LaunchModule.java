@@ -43,8 +43,16 @@ public class LaunchModule {
         loadMotor.setPower(power);
     }
 
+    public double getLaunchPower() {
+        return motor1.getPower();
+    }
+
     public double getLoadPower() {
         return loadMotor.getPower();
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
     public Operation load(double loadTime) {
@@ -57,6 +65,10 @@ public class LaunchModule {
 
     public Operation launch(double feedTime) {
         return new Launch(this, feedTime);
+    }
+
+    public Operation launchDecel() {
+        return new LaunchDecel(this);
     }
 
     private class Load implements Operation {
@@ -116,7 +128,7 @@ public class LaunchModule {
             if(launchModule.locked) {
                 callback.err(new DeviceLockedException(this));
             } else {
-                launchModule.locked = true;
+//                launchModule.locked = true;
 
                 targetTime = time.milliseconds() + 3000 * launchModule.getLoadPower();
             }
@@ -133,7 +145,7 @@ public class LaunchModule {
 
         @Override
         public void stop(Sequence.Callback callback) {
-            launchModule.locked = false;
+//            launchModule.locked = false;
             launchModule.setLoadPower(0);
             callback.next();
         }
@@ -167,14 +179,14 @@ public class LaunchModule {
         @Override
         public void loop(Sequence.Callback callback) {
             double dtime = time.milliseconds() - initialTime;
-            if(dtime > 6000 + feedTime) {
+            if(dtime > 7000 + feedTime) {
                 stop(callback);
-            } else if(dtime > 2000 + feedTime) {
-                double pow = 1 - MathX.expScale((dtime - 2000 - feedTime) / 4000, .4);
+            } else if(dtime > 3000 + feedTime) {
+                double pow = 1 - MathX.expScale((dtime - 3000 - feedTime) / 4000, .4);
                 launchModule.setWheelPower(pow);
-            } else if(dtime > 1000 + feedTime) {
+            } else if(dtime > 2000 + feedTime) {
                 launchModule.setFeedPower(0);
-            } else if(dtime > 1000) {
+            } else if(dtime > 2000) {
                 launchModule.setFeedPower(.2);
             }
         }
@@ -187,4 +199,44 @@ public class LaunchModule {
             callback.next();
         }
     }
+
+    private class LaunchDecel implements Operation {
+        private LaunchModule launchModule;
+        private ElapsedTime time;
+
+        private double targetTime;
+
+        public LaunchDecel(LaunchModule launchModule) {
+            this.launchModule = launchModule;
+            this.time = new ElapsedTime();
+        }
+
+        @Override
+        public void start(Sequence.Callback callback) {
+            if(launchModule.locked) {
+                callback.err(new DeviceLockedException(this));
+            } else {
+//                launchModule.locked = true;
+
+                targetTime = time.milliseconds() + 3000 * launchModule.getLaunchPower();
+            }
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+            if(time.milliseconds() > targetTime) {
+                stop(callback);
+            } else {
+                launchModule.setWheelPower((targetTime - time.milliseconds()) / 3000.0);
+            }
+        }
+
+        @Override
+        public void stop(Sequence.Callback callback) {
+//            launchModule.locked = false;
+            launchModule.setWheelPower(0);
+            callback.next();
+        }
+    }
+
 }

@@ -82,7 +82,9 @@ public class Sequence {
         }
 
         public void err(ErrorArgs error) {
-            parent.errorHandler.handleError(parent, error);
+            if(parent.errorHandler != null) {
+                parent.errorHandler.handleError(parent, error);
+            }
         }
 
         public Sequence getSequence() {
