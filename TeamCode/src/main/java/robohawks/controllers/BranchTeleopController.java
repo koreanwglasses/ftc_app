@@ -53,7 +53,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
 
         // Launch
 
-        if(gamepad1.a && !launchButtonState) {
+        if(gamepad2.a && !launchButtonState) {
             if(launchSequence != null) {
                 launchSequence.terminate();
                 launchSequence = null;
@@ -61,14 +61,14 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
 
             launchModule.setWheelPower(1);
         }
-        if (!gamepad1.a && launchButtonState) {
+        if (!gamepad2.a && launchButtonState) {
             if(launchSequence != null) {
                 launchSequence.terminate();
             }
             launchSequence = sequencer.begin(launchModule.launchDecel());
             launchSequence.setErrorHandler(this);
         }
-        launchButtonState = gamepad1.a;
+        launchButtonState = gamepad2.a;
 
         // Un-Feed
         if(gamepad2.left_trigger > 0.5) {
@@ -89,22 +89,22 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
 
         // Load
 
-        if((gamepad1.y || gamepad1.x) && !loadButtonState) {
+        if((gamepad2.y || gamepad2.x) && !loadButtonState) {
             if(loadDecelSequence != null) {
                 loadDecelSequence.terminate();
                 loadDecelSequence = null;
             }
 
-            launchModule.setLoadPower(gamepad1.y ? 1 : -1);
+            launchModule.setLoadPower(gamepad2.y ? 1 : -1);
         }
-        if (!(gamepad1.y || gamepad1.x) && loadButtonState) {
+        if (!(gamepad2.y || gamepad2.x) && loadButtonState) {
             if(loadDecelSequence != null) {
                 loadDecelSequence.terminate();
             }
             loadDecelSequence = sequencer.begin(launchModule.loadDecel());
             loadDecelSequence.setErrorHandler(this);
         }
-        loadButtonState = (gamepad1.y || gamepad1.x);
+        loadButtonState = (gamepad2.y || gamepad2.x);
 
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Locked", launchModule.isLocked());
