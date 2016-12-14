@@ -22,7 +22,9 @@ public class ButtonModule {
         servo2 = hardwareMap.servo.get("servo2");
     }
 
-    public Operation turn(int servox){return new Turn(this, servox);}
+    public Operation toggleServo1(){return new Turn(this, 1);}
+
+    public Operation toggleServo2(){return new Turn(this, 2);}
 
     private class Turn implements Operation{
         private ButtonModule buttonModule;

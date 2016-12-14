@@ -1,7 +1,6 @@
 package robohawks.controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import robohawks.async.Sequence;
 import robohawks.modules.base.ButtonModule;
@@ -25,11 +24,8 @@ public class ButtonController extends Controller{
     public void loop() {
         super.loop();
 
-        if(buttonSequence != null && buttonSequence.isFinished()){
-            buttonSequence = null;
-        } else {
-            buttonSequence = sequencer.begin(buttonModule.turn(1));
+        if(buttonSequence == null) {
+            buttonSequence = sequencer.begin(buttonModule.toggle(1));
         }
-
     }
 }
