@@ -2,9 +2,11 @@ package robohawks.controllers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.modules.base.ButtonModule;
 import robohawks.modules.base.ColorModule;
+import robohawks.sequences.ButtonSequence;
 import robohawks.utils.Color;
 
 /**
@@ -16,22 +18,23 @@ public class ButtonController extends Controller{
     ButtonModule buttonModule;
     ColorModule colorModule;
 
-    Sequence buttonSequence;
+    Operation lineSequence;
+    ButtonSequence buttonSequence;
+
+    Sequence sequence;
 
     @Override
     public void init() {
-
         buttonModule = new ButtonModule(hardwareMap);
         colorModule = new ColorModule(hardwareMap);
+
+        buttonSequence = new ButtonSequence(sequencer, buttonModule, colorModule, true);
+
+        sequence = sequencer.begin(lineSequence).then(buttonSequence);
     }
 
     @Override
     public void loop() {
         super.loop();
-
-        if(buttonSequence == null) {
-
-            buttonSequence = sequencer.begin(buttonModule.toggle(1));
-        }
     }
 }

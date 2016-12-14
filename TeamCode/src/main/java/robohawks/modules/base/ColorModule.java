@@ -26,7 +26,8 @@ public class ColorModule {
         buttonSensor1.enableLed(lightOn);
     }
 
-    public boolean isRedorBlue(){
+    public boolean isRednotBlue(){
         //TODO
+        return false;
     }
 }
