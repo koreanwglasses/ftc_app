@@ -25,4 +25,8 @@ public class ColorModule {
     public void setLight(boolean lightOn) {
         buttonSensor1.enableLed(lightOn);
     }
+
+    public boolean isRedorBlue(){
+        //TODO
+    }
 }
