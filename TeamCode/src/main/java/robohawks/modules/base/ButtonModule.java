@@ -22,23 +22,16 @@ public class ButtonModule {
         servo2 = hardwareMap.servo.get("servo2");
     }
 
-    public Operation turn(Servo servo, double turnTime){return new Turn(this, servo, turnTime);}
+    public Operation turn(int servox){return new Turn(this, servox);}
 
     private class Turn implements Operation{
         private ButtonModule buttonModule;
-        private ElapsedTime elapsedTime;
+        private int servox;
 
-        private double initialTime;
-        private double turnTime;
-        private Servo servo;
-
-        public Turn(ButtonModule buttonModule, Servo servo, double turnTime){
+        public Turn(ButtonModule buttonModule, int servox){
 
             this.buttonModule = buttonModule;
-            this.turnTime = turnTime;
-
-            this.elapsedTime = new ElapsedTime();
-
+            this.servox = servox;
         }
 
         @Override
@@ -47,22 +40,28 @@ public class ButtonModule {
                 callback.err(new DeviceLockedException(this));
             } else {
                 buttonModule.locked = true;
-                servo.setPosition(servo.getPosition() + 180.0);
+                if(servox == 1){
+                    servo1.setPosition(1);
+                } else {
+                    servo2.setPosition(1);
+                }
 
-                initialTime = elapsedTime.milliseconds();
             }
         }
 
         @Override
         public void loop(Sequence.Callback callback) {
-            if (elapsedTime.milliseconds() > initialTime + turnTime){
-                stop(callback);
-            }
+            stop(callback);
         }
 
         @Override
         public void stop(Sequence.Callback callback) {
-            servo.setPosition(servo.getPosition() - 180.0);
+            if (servox == 1){
+                servo1.setPosition(0);
+            } else {
+                servo2.setPosition(0);
+            }
+
             buttonModule.locked = false;
             callback.next();
         }
