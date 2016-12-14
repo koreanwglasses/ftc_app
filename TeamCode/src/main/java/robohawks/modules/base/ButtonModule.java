@@ -41,9 +41,9 @@ public class ButtonModule {
             } else {
                 buttonModule.locked = true;
                 if(servox == 1){
-                    servo1.setPosition(servo1.getPosition() + 180.0);
+                    servo1.setPosition(1);
                 } else {
-                    servo2.setPosition(servo2.getPosition() + 180.0);
+                    servo2.setPosition(1);
                 }
 
             }
@@ -57,9 +57,9 @@ public class ButtonModule {
         @Override
         public void stop(Sequence.Callback callback) {
             if (servox == 1){
-                servo1.setPosition(servo1.getPosition() - 180.0);
+                servo1.setPosition(0);
             } else {
-                servo2.setPosition(servo2.getPosition() - 180.0);
+                servo2.setPosition(0);
             }
 
             buttonModule.locked = false;
