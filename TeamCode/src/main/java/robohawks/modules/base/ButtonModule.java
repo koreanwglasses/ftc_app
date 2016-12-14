@@ -15,6 +15,9 @@ public class ButtonModule {
     private Servo servo1;
     private Servo servo2;
 
+    private boolean servo1Extended;
+    private boolean servo2Extended;
+
     private boolean locked;
 
     public ButtonModule(HardwareMap hardwareMap){
@@ -22,51 +25,37 @@ public class ButtonModule {
         servo2 = hardwareMap.servo.get("servo2");
     }
 
-    public Operation toggleServo1(){return new Turn(this, 1);}
+    public boolean isServo1Extended() {
+        return servo1Extended;
+    }
 
-    public Operation toggleServo2(){return new Turn(this, 2);}
+    public boolean isServo2Extended() {
+        return servo2Extended;
+    }
 
-    private class Turn implements Operation{
-        private ButtonModule buttonModule;
-        private int servox;
-
-        public Turn(ButtonModule buttonModule, int servox){
-
-            this.buttonModule = buttonModule;
-            this.servox = servox;
-        }
-
-        @Override
-        public void start(Sequence.Callback callback) {
-            if (buttonModule.locked == true){
-                callback.err(new DeviceLockedException(this));
-            } else {
-                buttonModule.locked = true;
-                if(servox == 1){
-                    servo1.setPosition(1);
-                } else {
-                    servo2.setPosition(1);
-                }
-
-            }
-        }
-
-        @Override
-        public void loop(Sequence.Callback callback) {
-            stop(callback);
-        }
-
-        @Override
-        public void stop(Sequence.Callback callback) {
-            if (servox == 1){
-                servo1.setPosition(0);
-            } else {
-                servo2.setPosition(0);
-            }
-
-            buttonModule.locked = false;
-            callback.next();
+    public void setServo1(boolean extended) {
+        servo1Extended = extended;
+        if(extended) {
+            servo1.setPosition(1);
+        } else {
+            servo1.setPosition(0);
         }
     }
 
+    public void setServo2(boolean extended) {
+        servo2Extended = extended;
+        if(extended) {
+            servo2.setPosition(1);
+        } else {
+            servo2.setPosition(0);
+        }
+    }
+
+    public void toggleServo1() {
+        setServo1(!isServo1Extended());
+    }
+
+    public void toggleServo2() {
+        setServo2(!isServo2Extended());
+    }
 }
