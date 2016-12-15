@@ -39,7 +39,7 @@ public class ButtonSequence implements Operation {
         seesRednotBlue = colorModule.isRednotBlue();
 
         sequence = sequencer
-            .begin(driveModule.drive(2, -0.5, -0.5))
+            .begin(driveModule.drive(1, -0.5, -0.5))
             .then(new SimpleOperation() {
                 @Override
                 public void start(Sequence.Callback callback) {
@@ -52,8 +52,9 @@ public class ButtonSequence implements Operation {
                     }
                 }
             })
-            .then(driveModule.drive(2.5, 0.5, 0.5))
-            .then(driveModule.drive(0.5, 0.0, 0.0))
+            .then(driveModule.drive(1, 0.0, 0.0))
+            .then(driveModule.drive(1, 0.5, 0.5))
+            .then(driveModule.drive(1, 0.0, 0.0))
             .then(driveModule.drive(1, -0.5, -0.5))
             .then(new SimpleOperation() {
                 @Override

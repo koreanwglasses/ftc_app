@@ -22,6 +22,10 @@ public class ColorModule {
         return Color.fromArgb(buttonSensor1.argb());
     }
 
+    public int getColorArgb() {
+        return buttonSensor1.argb();
+    }
+
     public void setLight(boolean lightOn) {
         buttonSensor1.enableLed(lightOn);
     }

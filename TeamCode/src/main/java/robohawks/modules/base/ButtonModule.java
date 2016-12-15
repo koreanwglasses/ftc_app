@@ -36,18 +36,18 @@ public class ButtonModule {
     public void setServo1(boolean extended) {
         servo1Extended = extended;
         if(extended) {
-            servo1.setPosition(1);
-        } else {
             servo1.setPosition(0);
+        } else {
+            servo1.setPosition(1);
         }
     }
 
     public void setServo2(boolean extended) {
         servo2Extended = extended;
         if(extended) {
-            servo2.setPosition(1);
-        } else {
             servo2.setPosition(0);
+        } else {
+            servo2.setPosition(1);
         }
     }
 

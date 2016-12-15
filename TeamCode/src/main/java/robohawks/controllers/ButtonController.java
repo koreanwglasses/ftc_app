@@ -31,13 +31,20 @@ public class ButtonController extends Controller{
         colorModule = new ColorModule(hardwareMap);
         driveModule = new DriveModule(hardwareMap);
 
+        colorModule.setLight(true);
+        buttonModule.setServo1(false);
+        buttonModule.setServo2(false);
+
         buttonSequence = new ButtonSequence(sequencer, driveModule, buttonModule, colorModule, true);
 
-        sequence = sequencer.begin(lineSequence).then(buttonSequence);
+        sequence = sequencer.begin(buttonSequence);
     }
 
     @Override
     public void loop() {
+
+        telemetry.addData("ColorArgb", colorModule.getColorArgb());
+        telemetry.addData("Color", colorModule.getColor());
         super.loop();
     }
 }
