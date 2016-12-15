@@ -18,7 +18,10 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     LaunchModule launchModule;
     ButtonModule buttonModule;
 
-    boolean launchButtonState;
+    boolean launchTriggerState;
+    boolean lockLaunchState;
+    boolean lockLaunchPower;
+    double launchPower = 0;
     Sequence launchSequence;
 
     boolean loadButtonState;
@@ -40,6 +43,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     public void loop() {
         super.loop();
 
+        // Drive
         double x, p;
         if(Math.abs(gamepad1.left_stick_x) > threshold) {
             x = MathX.expScale(gamepad1.left_stick_x, .8);
@@ -56,25 +60,35 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
             p -= MathX.expScale(gamepad1.left_trigger, 2);
         }
         driveModule.setHeadingXP(x, p);
+        // End Drive
 
         // Launch
-
-        if(gamepad2.right_trigger > threshold && !launchButtonState) {
+        if(!lockLaunchPower) {
+            launchPower = gamepad2.right_trigger;
+        }
+        if(launchPower > threshold) {
             if(launchSequence != null) {
                 launchSequence.terminate();
                 launchSequence = null;
             }
-
-            launchModule.setWheelPower(MathX.expScale(gamepad2.right_trigger, 2));
+            launchModule.setWheelPower(launchPower);
         }
-        if (gamepad2.right_trigger <= threshold && launchButtonState) {
+        if (launchPower <= threshold && launchTriggerState) {
             if(launchSequence != null) {
                 launchSequence.terminate();
             }
             launchSequence = sequencer.begin(launchModule.launchDecel());
             launchSequence.setErrorHandler(this);
         }
-        launchButtonState = gamepad2.right_trigger > threshold;
+        launchTriggerState = launchPower > threshold;
+        // End Launch
+
+        // Launch Lock
+        if(gamepad2.a && !lockLaunchState) {
+            lockLaunchPower = !lockLaunchPower;
+        }
+        lockLaunchState = gamepad2.a;
+        // End Launch Lock
 
         // Un-Feed
         if(gamepad2.dpad_down) {
@@ -92,9 +106,9 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
                 launchModule.setFeedPower(0);
             }
         }
+        // End Un-Feed
 
         // Load
-
         if((gamepad2.y || gamepad2.x) && !loadButtonState) {
             if(loadDecelSequence != null) {
                 loadDecelSequence.terminate();
@@ -111,6 +125,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
             loadDecelSequence.setErrorHandler(this);
         }
         loadButtonState = (gamepad2.y || gamepad2.x);
+        // End Load
 
         // Buttons
         if(gamepad1.y && !rButtonState) {
@@ -119,12 +134,19 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         rButtonState = gamepad1.y;
 
         if(gamepad1.x && !lButtonState) {
-            buttonModule.toggleServo2();
+            buttonModule.toggleServo1();
         }
         lButtonState = gamepad1.x;
+        // End Buttons
 
         telemetry.addData("Heading", x + ", " + p);
-        telemetry.addData("Locked", launchModule.isLocked());
+        telemetry.addData("Power", launchModule.getLaunchPower());
+        if(lockLaunchPower) {
+            telemetry.addData("Info", "Power locked at" + launchPower);
+        }
+        if(launchPower <= threshold && launchModule.getLaunchPower() > 0) {
+            telemetry.addData("Info", "Decelerating...");
+        }
     }
 
     @Override
