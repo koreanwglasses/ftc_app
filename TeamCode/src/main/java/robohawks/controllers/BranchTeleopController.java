@@ -64,7 +64,12 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
 
         // Launch
         if(!lockLaunchPower) {
-            launchPower = gamepad2.right_trigger;
+            if(gamepad2.right_trigger > threshold) {
+//                launchPower = gamepad2.right_trigger;
+                launchPower = 1;
+            } else {
+                launchPower = 0;
+            }
         }
         if(launchPower > threshold) {
             if(launchSequence != null) {
@@ -84,29 +89,29 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         // End Launch
 
         // Launch Lock
-        if(gamepad2.a && !lockLaunchState) {
-            lockLaunchPower = !lockLaunchPower;
-        }
-        lockLaunchState = gamepad2.a;
+//        if(gamepad2.a && !lockLaunchState) {
+//            lockLaunchPower = !lockLaunchPower;
+//        }
+//        lockLaunchState = gamepad2.a;
         // End Launch Lock
 
-        // Un-Feed
-        if(gamepad2.dpad_down) {
-            launchModule.setFeedPower(0.2);
+        // Feed
+        if(gamepad2.dpad_up) {
+            launchModule.setFeedPower(0.3);
         } else {
             if(!gamepad2.dpad_down) {
                 launchModule.setFeedPower(0);
             }
         }
 
-        if(gamepad2.dpad_up) {
-            launchModule.setFeedPower(-0.2);
+        if(gamepad2.dpad_down) {
+            launchModule.setFeedPower(-0.3);
         } else {
             if(!gamepad2.dpad_up) {
                 launchModule.setFeedPower(0);
             }
         }
-        // End Un-Feed
+        // End Feed
 
         // Load
         if((gamepad2.y || gamepad2.x) && !loadButtonState) {
