@@ -63,8 +63,8 @@ public class LaunchModule {
         return new LoadDecel(this);
     }
 
-    public Operation launch(double feedTime) {
-        return new Launch(this, feedTime);
+    public Operation launch(double power) {
+        return new Launch(this, power);
     }
 
     public Operation launchDecel() {
@@ -156,11 +156,11 @@ public class LaunchModule {
         private ElapsedTime time;
 
         private double initialTime;
-        private double feedTime;
+        private double power;
 
-        public Launch(LaunchModule launchModule, double feedTime) {
+        public Launch(LaunchModule launchModule, double power) {
             this.launchModule = launchModule;
-            this.feedTime = feedTime;
+            this.power = power;
             this.time = new ElapsedTime();
         }
 
@@ -170,7 +170,6 @@ public class LaunchModule {
                 callback.err(new DeviceLockedException(this));
             } else {
                 launchModule.locked = true;
-                launchModule.setWheelPower(1);
 
                 initialTime = time.milliseconds();
             }
@@ -179,15 +178,12 @@ public class LaunchModule {
         @Override
         public void loop(Sequence.Callback callback) {
             double dtime = time.milliseconds() - initialTime;
-            if(dtime > 7000 + feedTime) {
-                stop(callback);
-            } else if(dtime > 3000 + feedTime) {
-                double pow = 1 - MathX.expScale((dtime - 3000 - feedTime) / 4000, .4);
-                launchModule.setWheelPower(pow);
-            } else if(dtime > 2000 + feedTime) {
-                launchModule.setFeedPower(0);
-            } else if(dtime > 2000) {
-                launchModule.setFeedPower(.2);
+            if(dtime / 3000.0 > power) {
+                launchModule.setWheelPower(power);
+                launchModule.locked = false;
+                callback.next();
+            } else {
+                launchModule.setWheelPower(dtime / 3000.0);
             }
         }
 

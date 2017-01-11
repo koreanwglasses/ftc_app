@@ -16,11 +16,11 @@ import robohawks.modules.base.LaunchModule;
 public class BranchTeleopController extends Controller implements ErrorHandler{
     DriveModule driveModule;
     LaunchModule launchModule;
-    ButtonModule buttonModule;
+//    ButtonModule buttonModule;
 
     boolean launchTriggerState;
-    boolean lockLaunchState;
-    boolean lockLaunchPower;
+//    boolean lockLaunchState;
+//    boolean lockLaunchPower;
     double launchPower = 0;
     Sequence launchSequence;
 
@@ -36,7 +36,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     public void init() {
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
-        buttonModule = new ButtonModule(hardwareMap);
+//        buttonModule = new ButtonModule(hardwareMap);
     }
 
     @Override
@@ -63,20 +63,20 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         // End Drive
 
         // Launch
-        if(!lockLaunchPower) {
-            if(gamepad2.right_trigger > threshold) {
-//                launchPower = gamepad2.right_trigger;
-                launchPower = 1;
-            } else {
-                launchPower = 0;
-            }
-        }
-        if(launchPower > threshold) {
+//        if(!lockLaunchPower) {
+//            if(gamepad2.right_trigger > threshold) {
+////                launchPower = gamepad2.right_trigger;
+//                launchPower = 1;
+//            } else {
+//                launchPower = 0;
+//            }
+//        }
+        if(launchPower > threshold && !launchTriggerState) {
             if(launchSequence != null) {
                 launchSequence.terminate();
-                launchSequence = null;
             }
-            launchModule.setWheelPower(launchPower);
+            launchSequence = sequencer.begin(launchModule.launch(launchPower));
+            launchSequence.setErrorHandler(this);
         }
         if (launchPower <= threshold && launchTriggerState) {
             if(launchSequence != null) {
@@ -133,22 +133,22 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         // End Load
 
         // Buttons
-        if(gamepad1.y && !rButtonState) {
-            buttonModule.toggleServo2();
-        }
-        rButtonState = gamepad1.y;
-
-        if(gamepad1.x && !lButtonState) {
-            buttonModule.toggleServo1();
-        }
-        lButtonState = gamepad1.x;
+//        if(gamepad1.y && !rButtonState) {
+//            buttonModule.toggleServo2();
+//        }
+//        rButtonState = gamepad1.y;
+//
+//        if(gamepad1.x && !lButtonState) {
+//            buttonModule.toggleServo1();
+//        }
+//        lButtonState = gamepad1.x;
         // End Buttons
 
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Power", launchModule.getLaunchPower());
-        if(lockLaunchPower) {
-            telemetry.addData("Info", "Power locked at" + launchPower);
-        }
+//        if(lockLaunchPower) {
+//            telemetry.addData("Info", "Power locked at" + launchPower);
+//        }
         if(launchPower <= threshold && launchModule.getLaunchPower() > 0) {
             telemetry.addData("Info", "Decelerating...");
         }
