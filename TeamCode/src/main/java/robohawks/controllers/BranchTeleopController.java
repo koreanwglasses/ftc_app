@@ -64,12 +64,12 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
 
         // Launch
 //        if(!lockLaunchPower) {
-//            if(gamepad2.right_trigger > threshold) {
-////                launchPower = gamepad2.right_trigger;
-//                launchPower = 1;
-//            } else {
-//                launchPower = 0;
-//            }
+            if(gamepad2.right_trigger > threshold) {
+//                launchPower = gamepad2.right_trigger;
+                launchPower = 1;
+            } else {
+                launchPower = 0;
+            }
 //        }
         if(launchPower > threshold && !launchTriggerState) {
             if(launchSequence != null) {
