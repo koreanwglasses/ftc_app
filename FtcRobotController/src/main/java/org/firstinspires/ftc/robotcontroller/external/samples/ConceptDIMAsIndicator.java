@@ -37,7 +37,11 @@ public class ConceptDIMAsIndicator extends LinearOpMode {
     DeviceInterfaceModule   dim;
 
     @Override
+<<<<<<< HEAD
     public void runOpMode() throws InterruptedException {
+=======
+    public void runOpMode() {
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
 
         // Connect to motor (Assume standard left wheel)
         // Change the text in quotes to match any motor name on your robot.

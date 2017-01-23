@@ -66,7 +66,11 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
     final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
 
     @Override
+<<<<<<< HEAD
     public void runOpMode() throws InterruptedException {
+=======
+    public void runOpMode() {
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
         double left;
         double right;
         double max;

@@ -123,7 +123,11 @@ public class SensorAdafruitIMUCalibration extends LinearOpMode
     // Main logic
     //----------------------------------------------------------------------------------------------
 
+<<<<<<< HEAD
     @Override public void runOpMode() throws InterruptedException {
+=======
+    @Override public void runOpMode() {
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
 
         telemetry.log().setCapacity(12);
         telemetry.log().add("");
@@ -179,7 +183,10 @@ public class SensorAdafruitIMUCalibration extends LinearOpMode
             }
 
             telemetry.update();
+<<<<<<< HEAD
             idle();
+=======
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
         }
     }
 

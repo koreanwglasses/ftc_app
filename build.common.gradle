@@ -28,7 +28,11 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+<<<<<<< HEAD
             storeFile file('../libs/ftc.debug.keystore')
+=======
+            storeFile rootProject.file('libs/ftc.debug.keystore')
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
             storePassword 'android'
         }
     }
@@ -50,7 +54,11 @@ android {
          * @see <a href="http://developer.android.com/tools/building/configuring-gradle.html">Configure Your Build</a>
          * @see <a href="http://developer.android.com/tools/publishing/versioning.html">Versioning Your App</a>
          */
+<<<<<<< HEAD
         def manifestFile = file('../FtcRobotController/src/main/AndroidManifest.xml');
+=======
+        def manifestFile = project(':FtcRobotController').file('src/main/AndroidManifest.xml');
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
         def manifestText = manifestFile.getText()
         //
         def vCodePattern = Pattern.compile("versionCode=\"(\\d+(\\.\\d+)*)\"")
@@ -70,7 +78,12 @@ android {
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed
     buildTypes {
         release {
+<<<<<<< HEAD
             debuggable true
+=======
+            // Disable debugging for release versions so it can be uploaded to Google Play.
+            //debuggable true
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
             ndk {
                 abiFilters "armeabi-v7a"
             }
@@ -90,13 +103,21 @@ android {
 
     sourceSets.main {
         jni.srcDirs = []
+<<<<<<< HEAD
         jniLibs.srcDir "../libs"
+=======
+        jniLibs.srcDir rootProject.file('libs')
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
     }
 }
 
 repositories {
     flatDir {
+<<<<<<< HEAD
         dirs '../libs'
+=======
+        dirs rootProject.file('libs')
+>>>>>>> a337d8124b93802804d6d23aadea957373543862
     }
 }
 
