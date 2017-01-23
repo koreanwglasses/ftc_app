@@ -10,7 +10,7 @@ import robohawks.modules.base.DriveModule;
 /**
  * Created by fchoi on 9/26/2016.
  */
-@Autonomous(name="Simple", group ="Sample")
+@Autonomous(name="Simple", group ="Test")
 public class SimpleController extends Controller{
     Sequence mainSequence;
 

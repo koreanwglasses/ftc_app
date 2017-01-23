@@ -8,7 +8,7 @@ import robohawks.modules.base.ColorModule;
  * Created by paarth on 10/19/16.
  */
 
-@Autonomous(name="color", group="Sample")
+@Autonomous(name="color", group="Test")
 public class ColorSensorController extends Controller {
     ColorModule colorModule;
 

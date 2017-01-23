@@ -13,7 +13,7 @@ import robohawks.sequences.ButtonSequence;
  * Created by paarth on 12/14/16.
  */
 
-@Autonomous(name = "button", group = "Sample")
+@Autonomous(name = "button", group = "Test")
 public class ButtonController extends Controller{
     ButtonModule buttonModule;
     ColorModule colorModule;
