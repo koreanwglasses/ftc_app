@@ -39,45 +39,46 @@ public class ButtonSequence implements Operation {
         seesRednotBlue = colorModule.isRednotBlue();
 
         sequence = sequencer
-            .begin(driveModule.drive(1, -0.5, -0.5))
-            .then(new SimpleOperation() {
-                @Override
-                public void start(Sequence.Callback callback) {
-                    if(seesRednotBlue == rednotBlue) {
-                        buttonModule.setServo1(true);
-                        buttonModule.setServo2(false);
-                    } else {
-                        buttonModule.setServo2(true);
-                        buttonModule.setServo1(false);
+                .begin(driveModule.drive(1, -0.5, -0.5))
+                .then(new SimpleOperation() {
+                    @Override
+                    public void start(Sequence.Callback callback) {
+                        if (seesRednotBlue == rednotBlue) {
+                            buttonModule.setServo1(true);
+                            buttonModule.setServo2(false);
+                        } else {
+                            buttonModule.setServo2(true);
+                            buttonModule.setServo1(false);
+                        }
                     }
-                }
-            })
-            .then(driveModule.drive(1, 0.0, 0.0))
-            .then(driveModule.drive(1, 0.5, 0.5))
-            .then(driveModule.drive(1, 0.0, 0.0))
-            .then(driveModule.drive(1, -0.5, -0.5))
-            .then(new SimpleOperation() {
-                @Override
-                public void start(Sequence.Callback callback) {
-                    buttonModule.setServo1(false);
-                    buttonModule.setServo2(false);
-                }
-            }
-        );
+                })
+                .then(driveModule.drive(1, 0.0, 0.0))
+                .then(driveModule.drive(1, 0.5, 0.5))
+                .then(driveModule.drive(1, 0.0, 0.0))
+                .then(driveModule.drive(1, -0.5, -0.5))
+                .then(new SimpleOperation() {
+                          @Override
+                          public void start(Sequence.Callback callback) {
+                              buttonModule.setServo1(false);
+                              buttonModule.setServo2(false);
+                          }
+                      }
+                );
     }
 
     @Override
     public void loop(Sequence.Callback callback) {
-        if(sequence.isFinished()) {
+        if (sequence.isFinished()) {
             stop(callback);
         }
     }
 
     @Override
     public void stop(Sequence.Callback callback) {
-        if(!sequence.isFinished()) {
+        if (!sequence.isFinished()) {
             sequence.terminate();
         }
         callback.next();
     }
+}
 
