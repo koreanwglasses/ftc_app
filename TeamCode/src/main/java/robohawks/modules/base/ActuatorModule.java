@@ -3,6 +3,10 @@ package robohawks.modules.base;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import robohawks.async.Operation;
+import robohawks.async.Sequence;
+import robohawks.async.SimpleOperation;
+
 /**
  * Created by paarth on 1/23/17.
  */
@@ -28,7 +32,7 @@ public class ActuatorModule {
         return actuator2Extended;
     }
 
-    public void toggleActuator1(boolean extended){
+    public void setActuator1(boolean extended){
         actuator1Extended = extended;
 
         if(extended){
@@ -38,7 +42,7 @@ public class ActuatorModule {
         }
     }
 
-    public void toggleActuator2(boolean extended) {
+    public void setActuator2(boolean extended) {
         actuator2Extended = extended;
 
         if (extended){
@@ -48,7 +52,25 @@ public class ActuatorModule {
         }
     }
 
-    public void toggleActuator1(){ toggleActuator1(!isActuator1Extended());}
+    public Operation setActuator1Op(final boolean extended) {
+        return new SimpleOperation() {
+            @Override
+            public void start(Sequence.Callback callback) {
+                setActuator1(extended);
+            }
+        };
+    }
 
-    public void toggleActuator2(){ toggleActuator2(!isActuator2Extended());}
+    public Operation setActuator2Op(final boolean extended){
+        return new SimpleOperation() {
+            @Override
+            public void start(Sequence.Callback callback) {
+                setActuator2(extended);
+            }
+        };
+    }
+
+    public void toggleActuator1(){ setActuator1(!isActuator1Extended());}
+
+    public void toggleActuator2(){ setActuator2(!isActuator2Extended());}
 }
