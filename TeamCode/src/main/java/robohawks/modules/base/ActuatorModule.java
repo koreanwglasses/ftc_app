@@ -28,27 +28,27 @@ public class ActuatorModule {
         return actuator2Extended;
     }
 
-    public void setActuator1(boolean extended){
+    public void toggleActuator1(boolean extended){
         actuator1Extended = extended;
 
         if(extended){
-            actuator1.setPosition(0);
-        } else {
             actuator1.setPosition(1);
+        } else {
+            actuator1.setPosition(0);
         }
     }
 
-    public void setActuator2(boolean extended) {
+    public void toggleActuator2(boolean extended) {
         actuator2Extended = extended;
 
         if (extended){
-            actuator2.setPosition(0);
-        } else {
             actuator2.setPosition(1);
+        } else {
+            actuator2.setPosition(0);
         }
     }
 
-    public void setActuator1(){ setActuator1(!isActuator1Extended());}
+    public void toggleActuator1(){ toggleActuator1(!isActuator1Extended());}
 
-    public void setActuator2(){ setActuator2(!isActuator2Extended());}
+    public void toggleActuator2(){ toggleActuator2(!isActuator2Extended());}
 }
