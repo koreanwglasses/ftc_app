@@ -80,4 +80,4 @@ public class ButtonSequence implements Operation {
         }
         callback.next();
     }
-}
+
