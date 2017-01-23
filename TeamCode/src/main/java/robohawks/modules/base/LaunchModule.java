@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
+import robohawks.async.Sequencer;
+import robohawks.async.SimpleOperation;
 import robohawks.async.error.DeviceLockedException;
 
 /**
@@ -59,12 +61,16 @@ public class LaunchModule {
         return new LoadDecel(this);
     }
 
-    public Operation launch(double power) {
-        return new Launch(this, power);
+    public Operation launchRev(double power) {
+        return new LaunchRev(this, power);
     }
 
     public Operation launchDecel() {
         return new LaunchDecel(this);
+    }
+
+    public Operation launch(Sequencer sequencer) {
+        return new Launch(this, sequencer);
     }
 
     private class Load implements Operation {
@@ -147,14 +153,14 @@ public class LaunchModule {
         }
     }
 
-    private class Launch implements Operation {
+    private class LaunchRev implements Operation {
         private LaunchModule launchModule;
         private ElapsedTime time;
 
         private double initialTime;
         private double power;
 
-        public Launch(LaunchModule launchModule, double power) {
+        public LaunchRev(LaunchModule launchModule, double power) {
             this.launchModule = launchModule;
             this.power = power;
             this.time = new ElapsedTime();
@@ -228,4 +234,60 @@ public class LaunchModule {
         }
     }
 
+    private class Launch implements Operation {
+        private LaunchModule launchModule;
+        private ElapsedTime time;
+
+        private Sequencer sequencer;
+
+        private Sequence sequence;
+
+        private double startTime;
+
+        public Launch(LaunchModule launchModule, Sequencer sequencer) {
+            this.launchModule = launchModule;
+            this.time = new ElapsedTime();
+
+            this.sequencer = sequencer;
+        }
+
+        @Override
+        public void start(Sequence.Callback callback) {
+            if(launchModule.locked) {
+                callback.err(new DeviceLockedException(this));
+            } else {
+                startTime = time.milliseconds();
+                sequence = sequencer
+                    .begin(launchModule.launchRev(1))
+                    .then(new WaitModule(1000))
+                    .then(new SimpleOperation() {
+                        @Override
+                        public void start(Sequence.Callback callback) {
+                            launchModule.setFeedPower(0.3);
+                        }
+                    })
+                    .then(new WaitModule(2000))
+                    .then(new SimpleOperation() {
+                        @Override
+                        public void start(Sequence.Callback callback) {
+                            launchModule.setFeedPower(0);
+                        }
+                    })
+                    .then(launchModule.launchDecel());
+            }
+        }
+
+        @Override
+        public void loop(Sequence.Callback callback) {
+            if(sequence.isFinished()) {
+                callback.next();
+            }
+        }
+
+        @Override
+        public void stop(Sequence.Callback callback) {
+            sequence.terminate();
+            callback.next();
+        }
+    }
 }

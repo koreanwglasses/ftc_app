@@ -8,7 +8,6 @@ import robohawks.modules.base.ButtonModule;
 import robohawks.modules.base.ColorModule;
 import robohawks.modules.base.DriveModule;
 import robohawks.sequences.ButtonSequence;
-import robohawks.utils.Color;
 
 /**
  * Created by paarth on 12/14/16.
@@ -44,7 +43,7 @@ public class ButtonController extends Controller{
     public void loop() {
 
         telemetry.addData("ColorArgb", colorModule.getColorArgb());
-        telemetry.addData("Color", colorModule.getColor());
+        telemetry.addData("Color", colorModule.getButtonColor());
         super.loop();
     }
 }

@@ -22,7 +22,7 @@ public class ColorSensorController extends Controller {
     public void loop() {
         super.loop();
 
-        telemetry.addData("Color", colorModule.getColor());
+        telemetry.addData("Color", colorModule.getButtonColor());
     }
 
 }

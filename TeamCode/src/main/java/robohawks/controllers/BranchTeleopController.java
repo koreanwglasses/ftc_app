@@ -3,7 +3,6 @@ package robohawks.controllers;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
-import robohawks.modules.base.ButtonModule;
 import robohawks.utils.MathX;
 import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
@@ -62,7 +61,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         driveModule.setHeadingXP(x, p);
         // End Drive
 
-        // Launch
+        // LaunchRev
 //        if(!lockLaunchPower) {
             if(gamepad2.right_trigger > threshold) {
 //                launchPower = gamepad2.right_trigger;
@@ -75,7 +74,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
             if(launchSequence != null) {
                 launchSequence.terminate();
             }
-            launchSequence = sequencer.begin(launchModule.launch(launchPower));
+            launchSequence = sequencer.begin(launchModule.launchRev(launchPower));
             launchSequence.setErrorHandler(this);
         }
         if (launchPower <= threshold && launchTriggerState) {
@@ -86,14 +85,14 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
             launchSequence.setErrorHandler(this);
         }
         launchTriggerState = launchPower > threshold;
-        // End Launch
+        // End LaunchRev
 
-        // Launch Lock
+        // LaunchRev Lock
 //        if(gamepad2.a && !lockLaunchState) {
 //            lockLaunchPower = !lockLaunchPower;
 //        }
 //        lockLaunchState = gamepad2.a;
-        // End Launch Lock
+        // End LaunchRev Lock
 
         // Feed
         if(gamepad2.dpad_up) {
