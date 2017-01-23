@@ -4,7 +4,6 @@ import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.modules.base.ColorModule;
 import robohawks.modules.base.DriveModule;
-import robohawks.utils.Color;
 
 /**
  * Created by fchoi on 1/14/2017.
@@ -33,11 +32,11 @@ public class LineSequence implements Operation{
     @Override
     public void loop(Sequence.Callback callback) {
         if(!foundLine) {
-            if(colorModule.isWhitenotBlack()) {
+            if(colorModule.isLeftWhitenotBlack()) {
                 foundLine = true;
             }
         } else {
-            if(!colorModule.isWhitenotBlack()) {
+            if(!colorModule.isLeftWhitenotBlack()) {
                 if(left) {
                     driveModule.setHeadingXP(-0.5, 0.7);
                 } else {

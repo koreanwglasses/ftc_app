@@ -10,11 +10,13 @@ import robohawks.utils.Color;
  */
 public class ColorModule {
     private ColorSensor buttonSensor;
-    private ColorSensor lineSensor;
+    private ColorSensor lineSensorLeft;
+    private ColorSensor lineSensorRight;
 
     public ColorModule(HardwareMap hardwareMap){
         buttonSensor = hardwareMap.colorSensor.get("buttonSensor");
-        lineSensor = hardwareMap.colorSensor.get("lineSensor");
+        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
+        lineSensorRight= hardwareMap.colorSensor.get("lineSensorRight");
     }
 
 // This "Operation" is just a method—it's instant, and it returns a value. There is no point in making it an asynchronous operation
@@ -37,7 +39,12 @@ public class ColorModule {
         return color.r > color.b;
     }
 
-    public boolean isWhitenotBlack() {
+    public boolean isLeftWhitenotBlack() {
+        // todo
+        return false;
+    }
+
+    public boolean isRightWhitenotBlack() {
         // todo
         return false;
     }
