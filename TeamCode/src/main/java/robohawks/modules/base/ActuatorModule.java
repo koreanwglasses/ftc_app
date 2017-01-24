@@ -57,6 +57,7 @@ public class ActuatorModule {
             @Override
             public void start(Sequence.Callback callback) {
                 setActuator1(extended);
+                callback.next();
             }
         };
     }
@@ -66,6 +67,7 @@ public class ActuatorModule {
             @Override
             public void start(Sequence.Callback callback) {
                 setActuator2(extended);
+                callback.next();
             }
         };
     }

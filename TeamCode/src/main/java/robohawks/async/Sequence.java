@@ -5,11 +5,13 @@ import robohawks.async.error.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fchoi on 9/25/2016.
  */
 public class Sequence {
+    private Sequencer parent;
     private List<Operation> actionQueue;
 
     private Operation currentAction;
@@ -21,17 +23,52 @@ public class Sequence {
     private Callback callback;
     private ErrorHandler errorHandler;
 
+    @Deprecated
     public Sequence() {
-        actionQueue = new ArrayList<>();
+        this.actionQueue = new ArrayList<>();
+        this.actionInProgress = false;
+        this.callback = new Callback(this);
+    }
 
-        actionInProgress = false;
-
-        callback = new Callback(this);
+    public Sequence(Sequencer parent) {
+        this.parent = parent;
+        this.actionQueue = new ArrayList<>();
+        this.actionInProgress = false;
+        this.callback = new Callback(this);
     }
 
     public Sequence then(Operation action) {
         actionQueue.add(action);
         return this;
+    }
+
+    public Operation start(final Sequence sequence) {
+        return new SimpleOperation() {
+            @Override
+            public void start(Callback callback) {
+                sequence.unpause();
+                callback.next();
+            }
+        };
+    }
+
+    public Operation join(final Sequence sequence) {
+        return new Operation() {
+            @Override
+            public void start(Callback callback) {
+
+            }
+
+            @Override
+            public void loop(Callback callback) {
+                if(sequence.isFinished()) callback.next();
+            }
+
+            @Override
+            public void stop(Callback callback) {
+                callback.next();
+            }
+        };
     }
 
     public void setErrorHandler(ErrorHandler errorHandler) {

@@ -21,14 +21,14 @@ public class ActuatorController extends Controller{
         final ColorModule colorModule = new ColorModule(hardwareMap);
         if (colorModule.isRednotBlue()){
             mainSequence = sequencer
-                    .begin(actuatorModule.setActuator1Op(true))
-                    .then(new WaitModule(2000))
-                    .then(actuatorModule.setActuator1Op(false));
+                .begin(actuatorModule.setActuator1Op(true))
+                .then(new WaitModule(2000))
+                .then(actuatorModule.setActuator1Op(false));
         } else {
             mainSequence = sequencer
-                    .begin(actuatorModule.setActuator2Op(true))
-                    .then(new WaitModule(2000))
-                    .then(actuatorModule.setActuator2Op(false));
+                .begin(actuatorModule.setActuator2Op(true))
+                .then(new WaitModule(2000))
+                .then(actuatorModule.setActuator2Op(false));
         }
     }
 

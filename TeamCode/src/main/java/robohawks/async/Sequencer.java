@@ -21,7 +21,7 @@ public class Sequencer{
      * @return the new sequence
      */
     public Sequence begin(Operation action) {
-        Sequence sequence = new Sequence();
+        Sequence sequence = new Sequence(this);
         sequence.then(action);
 
         sequences.add(sequence);
