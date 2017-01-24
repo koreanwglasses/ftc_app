@@ -19,6 +19,8 @@ public class ActuatorModule {
 
     private boolean locked;
 
+    private double length = 1.0;
+
     public ActuatorModule(HardwareMap hardwareMap){
         actuator1 = hardwareMap.servo.get("actLeft");
         actuator2 = hardwareMap.servo.get("actRight");
@@ -33,22 +35,20 @@ public class ActuatorModule {
     }
 
     public void setActuator1(boolean extended){
-        actuator1Extended = extended;
 
         if(extended){
-            actuator1.setPosition(1);
+            actuator1.setPosition(length);
         } else {
-            actuator1.setPosition(0);
+            actuator1.setPosition(.11);
         }
     }
 
     public void setActuator2(boolean extended) {
-        actuator2Extended = extended;
 
         if (extended){
-            actuator2.setPosition(1);
+            actuator2.setPosition(length);
         } else {
-            actuator2.setPosition(0);
+            actuator2.setPosition(.11);
         }
     }
 

@@ -19,10 +19,8 @@ public class ActuatorController extends Controller{
         final ActuatorModule actuatorModule = new ActuatorModule(hardwareMap);
         mainSequence = sequencer
             .begin(actuatorModule.setActuator1Op(true))
-            .then(new WaitModule(2000))
             .then(actuatorModule.setActuator1Op(false))
             .then(actuatorModule.setActuator2Op(true))
-            .then(new WaitModule(2000))
             .then(actuatorModule.setActuator2Op(false));
     }
 
