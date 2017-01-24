@@ -52,7 +52,7 @@ public class Sequence {
         };
     }
 
-    public Operation join(final Sequence sequence) {
+    public Operation join(final Sequence... sequences) {
         return new Operation() {
             @Override
             public void start(Callback callback) {
@@ -61,7 +61,11 @@ public class Sequence {
 
             @Override
             public void loop(Callback callback) {
-                if(sequence.isFinished()) callback.next();
+                for(Sequence sequence : sequences) {
+                    if (sequence.isFinished()) {
+                        callback.next();
+                    }
+                }
             }
 
             @Override
