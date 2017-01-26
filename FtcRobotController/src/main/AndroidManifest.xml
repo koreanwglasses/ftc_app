@@ -2,13 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.qualcomm.ftcrobotcontroller"
-<<<<<<< HEAD
-          android:versionCode="12"
-          android:versionName="2.2">
-=======
           android:versionCode="15"
           android:versionName="2.4">
->>>>>>> a337d8124b93802804d6d23aadea957373543862
 
   <application
     android:allowBackup="true"

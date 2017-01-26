@@ -58,19 +58,11 @@ public class TemplateOpMode_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-<<<<<<< HEAD
-    // DcMotor leftMotor = null;
-    // DcMotor rightMotor = null;
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-=======
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
 
     @Override
     public void runOpMode() {
->>>>>>> a337d8124b93802804d6d23aadea957373543862
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -78,13 +70,8 @@ public class TemplateOpMode_Linear extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-<<<<<<< HEAD
-        // leftMotor  = hardwareMap.dcMotor.get("left motor");
-        // rightMotor = hardwareMap.dcMotor.get("right motor");
-=======
         // leftMotor  = hardwareMap.dcMotor.get("left_drive");
         // rightMotor = hardwareMap.dcMotor.get("right_drive");
->>>>>>> a337d8124b93802804d6d23aadea957373543862
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -103,11 +90,6 @@ public class TemplateOpMode_Linear extends LinearOpMode {
             // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
-<<<<<<< HEAD
-
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-=======
->>>>>>> a337d8124b93802804d6d23aadea957373543862
         }
     }
 }

@@ -47,11 +47,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * a Modern Robotics Color Sensor.
  *
  * The op mode assumes that the color sensor
-<<<<<<< HEAD
- * is configured with a name of "color sensor".
-=======
  * is configured with a name of "sensor_color".
->>>>>>> a337d8124b93802804d6d23aadea957373543862
  *
  * You can use the X button on gamepad1 to toggle the LED on and off.
  *
@@ -66,11 +62,7 @@ public class SensorMRColor extends LinearOpMode {
 
 
   @Override
-<<<<<<< HEAD
-  public void runOpMode() throws InterruptedException {
-=======
   public void runOpMode() {
->>>>>>> a337d8124b93802804d6d23aadea957373543862
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
     float hsvValues[] = {0F,0F,0F};
@@ -90,11 +82,7 @@ public class SensorMRColor extends LinearOpMode {
     boolean bLedOn = true;
 
     // get a reference to our ColorSensor object.
-<<<<<<< HEAD
-    colorSensor = hardwareMap.colorSensor.get("color sensor");
-=======
     colorSensor = hardwareMap.colorSensor.get("sensor_color");
->>>>>>> a337d8124b93802804d6d23aadea957373543862
 
     // Set the LED in the beginning
     colorSensor.enableLed(bLedOn);
@@ -141,10 +129,6 @@ public class SensorMRColor extends LinearOpMode {
       });
 
       telemetry.update();
-<<<<<<< HEAD
-      idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-=======
->>>>>>> a337d8124b93802804d6d23aadea957373543862
     }
   }
 }

@@ -59,11 +59,7 @@ public class SensorMRCompass extends LinearOpMode {
     ModernRoboticsI2cCompassSensor compass;
     ElapsedTime                    timer = new ElapsedTime();
 
-<<<<<<< HEAD
-    @Override public void runOpMode() throws InterruptedException {
-=======
     @Override public void runOpMode() {
->>>>>>> a337d8124b93802804d6d23aadea957373543862
 
         // get a reference to our compass
         compass = hardwareMap.get(ModernRoboticsI2cCompassSensor.class, "compass");
@@ -120,10 +116,6 @@ public class SensorMRCompass extends LinearOpMode {
             }
 
             doTelemetry();
-<<<<<<< HEAD
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-=======
->>>>>>> a337d8124b93802804d6d23aadea957373543862
         }
     }
 
