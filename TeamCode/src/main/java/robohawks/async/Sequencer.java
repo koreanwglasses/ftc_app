@@ -28,6 +28,20 @@ public class Sequencer{
         return sequence;
     }
 
+    /**
+     * Create a new sequence that is paused on start
+     * @param action first operation
+     * @return the new sequence
+     */
+    public Sequence create(Operation action) {
+        Sequence sequence = new Sequence(this);
+        sequence.pause();
+        sequence.then(action);
+
+        sequences.add(sequence);
+        return sequence;
+    }
+
     public void loop() {
         if(sequences.size() > 0) {
             for (int i = sequences.size() - 1; i >= 0; i--) {

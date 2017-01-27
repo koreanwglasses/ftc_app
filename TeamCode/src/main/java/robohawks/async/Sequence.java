@@ -23,11 +23,14 @@ public class Sequence {
     private Callback callback;
     private ErrorHandler errorHandler;
 
+    private ArrayList<Object> returnValueStack;
+
     @Deprecated
     public Sequence() {
         this.actionQueue = new ArrayList<>();
         this.actionInProgress = false;
         this.callback = new Callback(this);
+        this.returnValueStack = new ArrayList<>();
     }
 
     public Sequence(Sequencer parent) {
@@ -35,6 +38,7 @@ public class Sequence {
         this.actionQueue = new ArrayList<>();
         this.actionInProgress = false;
         this.callback = new Callback(this);
+        this.returnValueStack = new ArrayList<>();
     }
 
     public Sequence then(Operation action) {
@@ -42,14 +46,42 @@ public class Sequence {
         return this;
     }
 
-    public Operation start(final Sequence sequence) {
-        return new SimpleOperation() {
+    public Sequence thenStart(final Sequence sequence) {
+        actionQueue.add(new SimpleOperation() {
             @Override
             public void start(Callback callback) {
                 sequence.unpause();
                 callback.next();
             }
-        };
+        });
+        return this;
+    }
+
+    /**
+     * Starts a new sequence depending on the value pushed by the previous operation. Pushes 'true' to the sequence if a sequence was successfully started.
+     * @param ifTrue Runs if the previously pushed value is a boolean and true
+     * @param ifFalse " and is false
+     * @return This sequence
+     */
+    public Sequence thenStartIf(final Sequence ifTrue, final Sequence ifFalse) {
+        actionQueue.add(new SimpleOperation() {
+            @Override
+            public void start(Callback callback) {
+                Object lastReturnValue = callback.getPreviousReturnValue();
+                if(lastReturnValue instanceof Boolean) {
+                    if ((Boolean) lastReturnValue) {
+                        ifTrue.unpause();
+                        callback.next(true);
+                    } else {
+                        ifFalse.unpause();
+                        callback.next(true);
+                    }
+                } else {
+                    callback.next(false);
+                }
+            }
+        });
+        return this;
     }
 
     public Operation join(final Sequence... sequences) {
@@ -120,12 +152,26 @@ public class Sequence {
 
         public void next() {
             parent.actionInProgress = false;
+            parent.returnValueStack.add(null);
+        }
+
+        public void next(Object returnValue) {
+            parent.actionInProgress = false;
+            parent.returnValueStack.add(returnValue);
         }
 
         public void err(ErrorArgs error) {
             if(parent.errorHandler != null) {
                 parent.errorHandler.handleError(parent, error);
             }
+        }
+
+        public Object getPreviousReturnValue() {
+            return parent.returnValueStack.get(parent.returnValueStack.size() - 1);
+        }
+
+        public ArrayList<Object> getReturnValueStack() {
+            return parent.returnValueStack;
         }
 
         public Sequence getSequence() {

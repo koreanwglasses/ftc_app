@@ -17,19 +17,19 @@ public class ActuatorController extends Controller{
 
     @Override
     public void init() {
-        final ActuatorModule actuatorModule = new ActuatorModule(hardwareMap);
-        final ColorModule colorModule = new ColorModule(hardwareMap);
-        if (colorModule.isRednotBlue()){
-            mainSequence = sequencer
-                .begin(actuatorModule.setActuator1Op(true))
-                .then(new WaitModule(2000))
-                .then(actuatorModule.setActuator1Op(false));
-        } else {
-            mainSequence = sequencer
-                .begin(actuatorModule.setActuator2Op(true))
-                .then(new WaitModule(2000))
-                .then(actuatorModule.setActuator2Op(false));
-        }
+        ActuatorModule actuatorModule = new ActuatorModule(hardwareMap);
+        ColorModule colorModule = new ColorModule(hardwareMap);
+        Sequence leftSequence = sequencer
+            .create(actuatorModule.setActuatorLeftOp(true))
+            .then(new WaitModule(2000))
+            .then(actuatorModule.setActuatorLeftOp(false));
+        Sequence rightSequence = sequencer
+            .create(actuatorModule.setActuatorRightOp(true))
+            .then(new WaitModule(2000))
+            .then(actuatorModule.setActuatorRightOp(false));
+        mainSequence = sequencer
+            .begin(colorModule.isRednotBlueOp())
+            .thenStartIf(leftSequence, rightSequence);
     }
 
     @Override

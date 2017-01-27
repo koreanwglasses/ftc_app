@@ -11,8 +11,8 @@ import robohawks.async.SimpleOperation;
  * Created by paarth on 1/23/17.
  */
 public class ActuatorModule {
-    private Servo actuator1;
-    private Servo actuator2;
+    private Servo actuatorLeft;
+    private Servo actuatorRight;
 
     public boolean actuator1Extended;
     public boolean actuator2Extended;
@@ -22,8 +22,8 @@ public class ActuatorModule {
     private double length = 1.0;
 
     public ActuatorModule(HardwareMap hardwareMap){
-        actuator1 = hardwareMap.servo.get("actLeft");
-        actuator2 = hardwareMap.servo.get("actRight");
+        actuatorLeft = hardwareMap.servo.get("actLeft");
+        actuatorRight = hardwareMap.servo.get("actRight");
     }
 
     public boolean isActuator1Extended() {
@@ -34,45 +34,43 @@ public class ActuatorModule {
         return actuator2Extended;
     }
 
-    public void setActuator1(boolean extended){
-
+    public void setActuatorLeft(boolean extended){
         if(extended){
-            actuator1.setPosition(length);
+            actuatorLeft.setPosition(length);
         } else {
-            actuator1.setPosition(.11);
+            actuatorLeft.setPosition(.11);
         }
     }
 
-    public void setActuator2(boolean extended) {
-
+    public void setActuatorRight(boolean extended) {
         if (extended){
-            actuator2.setPosition(length);
+            actuatorRight.setPosition(length);
         } else {
-            actuator2.setPosition(.11);
+            actuatorRight.setPosition(.11);
         }
     }
 
-    public Operation setActuator1Op(final boolean extended) {
+    public Operation setActuatorLeftOp(final boolean extended) {
         return new SimpleOperation() {
             @Override
             public void start(Sequence.Callback callback) {
-                setActuator1(extended);
+                setActuatorLeft(extended);
                 callback.next();
             }
         };
     }
 
-    public Operation setActuator2Op(final boolean extended){
+    public Operation setActuatorRightOp(final boolean extended){
         return new SimpleOperation() {
             @Override
             public void start(Sequence.Callback callback) {
-                setActuator2(extended);
+                setActuatorRight(extended);
                 callback.next();
             }
         };
     }
 
-    public void toggleActuator1(){ setActuator1(!isActuator1Extended());}
+    public void toggleActuatorLeft(){ setActuatorLeft(!isActuator1Extended());}
 
-    public void toggleActuator2(){ setActuator2(!isActuator2Extended());}
+    public void toggleActuatorRight(){ setActuatorRight(!isActuator2Extended());}
 }

@@ -3,6 +3,9 @@ package robohawks.modules.base;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import robohawks.async.Operation;
+import robohawks.async.Sequence;
+import robohawks.async.SimpleOperation;
 import robohawks.utils.Color;
 
 /**
@@ -37,6 +40,19 @@ public class ColorModule {
     public boolean isRednotBlue() {
         Color color = getButtonColor();
         return color.r > color.b;
+    }
+
+    /**
+     * Creates an operation that pushes the color (as a boolean) to the sequence
+     * @return the operation
+     */
+    public Operation isRednotBlueOp() {
+        return new SimpleOperation() {
+            @Override
+            public void start(Sequence.Callback callback) {
+                callback.next(isRednotBlue());
+            }
+        };
     }
 
     public boolean isLeftWhitenotBlack() {
