@@ -4,6 +4,7 @@ import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.Sequencer;
 import robohawks.async.SimpleOperation;
+import robohawks.async.error.ComplexOperation;
 import robohawks.modules.base.ButtonModule;
 import robohawks.modules.base.ColorModule;
 import robohawks.modules.base.DriveModule;
@@ -11,10 +12,7 @@ import robohawks.modules.base.DriveModule;
 /**
  * Created by fchoi on 12/14/2016.
  */
-public class ButtonSequence implements Operation {
-
-    Sequencer sequencer;
-
+public class ButtonSequence extends ComplexOperation {
     ButtonModule buttonModule;
     ColorModule colorModule;
     DriveModule driveModule;
@@ -25,7 +23,7 @@ public class ButtonSequence implements Operation {
     Sequence sequence;
 
     public ButtonSequence(Sequencer sequencer, DriveModule driveModule, ButtonModule buttonModule, ColorModule colorModule, boolean rednotBlue) {
-        this.sequencer = sequencer;
+        super(sequencer);
 
         this.driveModule = driveModule;
         this.buttonModule = buttonModule;
