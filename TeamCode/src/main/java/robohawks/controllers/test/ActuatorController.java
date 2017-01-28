@@ -20,13 +20,17 @@ public class ActuatorController extends Controller {
     public void init() {
         ActuatorModule actuatorModule = new ActuatorModule(hardwareMap);
         ColorModule colorModule = new ColorModule(hardwareMap);
+
+        actuatorModule.initialize();
+        colorModule.initialize();
+
         Sequence leftSequence = sequencer
             .create(actuatorModule.setActuatorLeftOp(true))
-            .then(new WaitModule(2000))
+            .then(new WaitModule(5500))
             .then(actuatorModule.setActuatorLeftOp(false));
         Sequence rightSequence = sequencer
             .create(actuatorModule.setActuatorRightOp(true))
-            .then(new WaitModule(2000))
+            .then(new WaitModule(5500))
             .then(actuatorModule.setActuatorRightOp(false));
         mainSequence = sequencer
             .begin(colorModule.isRednotBlueOp())

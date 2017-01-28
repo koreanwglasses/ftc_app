@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
+import robohawks.async.SimpleOperation;
 import robohawks.async.error.DeviceLockedException;
 import robohawks.async.error.OperationNotRunningException;
 
@@ -52,6 +53,16 @@ public class DriveModule {
             setPowerLeft(p);
             setPowerRight(p);
         }
+    }
+
+    public Operation setHeadingXPOp(final double x, final double p) {
+        return new SimpleOperation() {
+            @Override
+            public void start(Sequence.Callback callback) {
+                setHeadingXP(x, p);
+                callback.next();
+            }
+        };
     }
 
     /**
