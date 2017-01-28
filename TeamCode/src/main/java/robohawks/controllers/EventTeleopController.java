@@ -79,7 +79,7 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         }
         launchTriggerState = launchPower > threshold;
         // End LaunchRev
-        
+
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Power", launchModule.getLaunchPower());
         if(launchPower <= threshold && launchModule.getLaunchPower() > 0) {

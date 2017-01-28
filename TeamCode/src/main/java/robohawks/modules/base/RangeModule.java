@@ -18,5 +18,4 @@ public class RangeModule {
     public double getUltrasonicSensor(){
         return ultrasonicSensor.getUltrasonicLevel();
     }
-
 }

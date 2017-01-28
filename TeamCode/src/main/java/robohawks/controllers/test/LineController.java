@@ -21,7 +21,7 @@ public class LineController extends Controller {
         final ColorModule colorModule = new ColorModule(hardwareMap);
         final DriveModule driveModule = new DriveModule(hardwareMap);
 
-        lineSequence = new LineSequence(colorModule, driveModule, true);
+        lineSequence = new LineSequence(sequencer, colorModule, driveModule);
         mainSequence = sequencer
                 .begin(lineSequence);
     }
