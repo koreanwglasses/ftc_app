@@ -9,14 +9,14 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  */
 public class RangeModule {
 
-    private OpticalDistanceSensor opticalDistanceSensor;
     private UltrasonicSensor ultrasonicSensor;
 
     public RangeModule(HardwareMap hardwareMap){
-        this.opticalDistanceSensor = hardwareMap.opticalDistanceSensor.get("optic");
         this.ultrasonicSensor = hardwareMap.ultrasonicSensor.get("ultra");
     }
 
-    public float
+    public double getUltrasonicSensor(){
+        return ultrasonicSensor.getUltrasonicLevel();
+    }
 
 }
