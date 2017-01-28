@@ -11,6 +11,8 @@ import robohawks.async.error.DeviceLockedException;
 /**
  * Created by paarth on 12/5/16.
  */
+@Deprecated
+
 public class ButtonModule {
     private Servo servo1;
     private Servo servo2;
