@@ -1,8 +1,9 @@
-package robohawks.controllers;
+package robohawks.controllers.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import robohawks.async.Sequence;
+import robohawks.controllers.Controller;
 import robohawks.modules.base.ColorModule;
 import robohawks.modules.base.DriveModule;
 import robohawks.sequences.LineSequence;
@@ -11,7 +12,7 @@ import robohawks.sequences.LineSequence;
  * Created by paarth on 1/28/17.
  */
 @Autonomous(name = "LineControllerLeft", group = "Test")
-public class LineController extends Controller{
+public class LineController extends Controller {
     LineSequence lineSequence;
     Sequence mainSequence;
 

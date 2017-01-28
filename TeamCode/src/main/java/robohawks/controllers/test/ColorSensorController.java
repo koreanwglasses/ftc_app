@@ -1,7 +1,8 @@
-package robohawks.controllers;
+package robohawks.controllers.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import robohawks.controllers.Controller;
 import robohawks.modules.base.ColorModule;
 
 /**

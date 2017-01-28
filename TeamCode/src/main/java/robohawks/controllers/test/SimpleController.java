@@ -1,9 +1,10 @@
-package robohawks.controllers;
+package robohawks.controllers.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import robohawks.async.Sequence;
 import robohawks.async.Sequencer;
+import robohawks.controllers.Controller;
 import robohawks.modules.SimpleModule;
 import robohawks.modules.base.DriveModule;
 
@@ -11,7 +12,7 @@ import robohawks.modules.base.DriveModule;
  * Created by fchoi on 9/26/2016.
  */
 @Autonomous(name="Simple", group ="Test")
-public class SimpleController extends Controller{
+public class SimpleController extends Controller {
     Sequence mainSequence;
 
     @Override

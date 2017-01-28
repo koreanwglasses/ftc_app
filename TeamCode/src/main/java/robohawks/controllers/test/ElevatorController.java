@@ -1,8 +1,9 @@
-package robohawks.controllers;
+package robohawks.controllers.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import robohawks.async.Sequence;
+import robohawks.controllers.Controller;
 import robohawks.modules.base.ElevatorModule;
 
 /**

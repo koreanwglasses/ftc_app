@@ -1,6 +1,8 @@
-package robohawks.controllers;
+package robohawks.controllers.old;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import robohawks.controllers.Controller;
 import robohawks.utils.MathX;
 import robohawks.modules.base.DriveModule;
 
@@ -9,7 +11,7 @@ import robohawks.modules.base.DriveModule;
  */
 @Deprecated
 //@TeleOp(name="Master", group ="Teleop")
-public class MasterTeleopController extends Controller{
+public class MasterTeleopController extends Controller {
     DriveModule driveModule;
 
     float threshold = .1f;
