@@ -19,7 +19,7 @@ public class ActuatorModule {
 
     private boolean locked;
 
-    private double length = 1.0;
+    private double length = .8;
 
     public ActuatorModule(HardwareMap hardwareMap){
         actuatorLeft = hardwareMap.servo.get("actLeft");

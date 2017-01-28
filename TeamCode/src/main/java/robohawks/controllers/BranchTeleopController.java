@@ -3,6 +3,7 @@ package robohawks.controllers;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
+import robohawks.modules.base.ActuatorModule;
 import robohawks.utils.MathX;
 import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
@@ -15,6 +16,7 @@ import robohawks.modules.base.LaunchModule;
 public class BranchTeleopController extends Controller implements ErrorHandler{
     DriveModule driveModule;
     LaunchModule launchModule;
+    ActuatorModule actuatorModule;
 //    ButtonModule buttonModule;
 
     boolean launchTriggerState;
@@ -26,8 +28,8 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     boolean loadButtonState;
     Sequence loadDecelSequence;
 
-    boolean lButtonState;
-    boolean rButtonState;
+    boolean lActState;
+    boolean rActState;
 
     float threshold = .1f;
 
@@ -35,6 +37,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     public void init() {
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
+        actuatorModule = new ActuatorModule(hardwareMap);
 //        buttonModule = new ButtonModule(hardwareMap);
     }
 
@@ -130,6 +133,18 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         }
         loadButtonState = (gamepad2.y || gamepad2.x);
         // End Load
+
+        if (gamepad1.x && !rActState){
+            actuatorModule.toggleActuatorRight();
+        }
+
+        rActState = gamepad1.x;
+
+        if (gamepad1.y && !lActState){
+            actuatorModule.toggleActuatorLeft();
+        }
+
+        lActState = gamepad1.y;
 
         // Buttons
 //        if(gamepad1.y && !rButtonState) {

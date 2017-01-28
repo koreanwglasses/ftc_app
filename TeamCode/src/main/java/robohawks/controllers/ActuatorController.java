@@ -11,7 +11,7 @@ import robohawks.modules.base.WaitModule;
 /**
  * Created by paarth on 1/23/17.
  */
-@Autonomous(name="Actuator Controller", group="Competition")
+@Autonomous(name="Actuator Controller", group="Test")
 public class ActuatorController extends Controller{
     Sequence mainSequence;
 
