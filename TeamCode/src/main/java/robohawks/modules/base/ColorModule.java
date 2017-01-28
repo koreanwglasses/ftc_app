@@ -22,6 +22,10 @@ public class ColorModule {
         lineSensorRight= hardwareMap.colorSensor.get("lineSensorRight");
     }
 
+    public void initialize() {
+        setLight(false);
+    }
+
 // This "Operation" is just a method—it's instant, and it returns a value. There is no point in making it an asynchronous operation
 //    public Operation getButtonColor() {return new GetColor(this);}
 
