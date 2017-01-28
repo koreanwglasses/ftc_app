@@ -1,14 +1,15 @@
-package robohawks.controllers;
+package robohawks.controllers.old;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import robohawks.async.Sequence;
+import robohawks.controllers.Controller;
 import robohawks.modules.base.DriveModule;
 
 /**
  * Created by fchoi on 9/26/2016.
  */
 @Autonomous(name="Park In Middle", group ="Competition")
-public class ParkInMiddleController extends Controller{
+public class ParkInMiddleController extends Controller {
     Sequence mainSequence;
 
     @Override

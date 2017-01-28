@@ -1,7 +1,8 @@
-package robohawks.controllers;
+package robohawks.controllers.old;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import robohawks.async.Sequence;
+import robohawks.controllers.Controller;
 import robohawks.modules.base.DriveModule;
 import robohawks.modules.base.LaunchModule;
 
@@ -9,7 +10,7 @@ import robohawks.modules.base.LaunchModule;
  * Created by fchoi on 1/14/2017.
  */
 @Autonomous(name="Modified Auto Shoot", group ="Competition")
-public class ModifiedAutoShootController extends Controller{
+public class ModifiedAutoShootController extends Controller {
     Sequence mainSequence;
 
     @Override

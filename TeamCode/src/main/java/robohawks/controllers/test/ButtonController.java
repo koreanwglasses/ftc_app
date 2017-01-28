@@ -1,9 +1,10 @@
-package robohawks.controllers;
+package robohawks.controllers.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
+import robohawks.controllers.Controller;
 import robohawks.modules.base.ButtonModule;
 import robohawks.modules.base.ColorModule;
 import robohawks.modules.base.DriveModule;
@@ -14,7 +15,7 @@ import robohawks.sequences.ButtonSequence;
  */
 
 @Autonomous(name = "button", group = "Test")
-public class ButtonController extends Controller{
+public class ButtonController extends Controller {
     ButtonModule buttonModule;
     ColorModule colorModule;
     DriveModule driveModule;
