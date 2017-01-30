@@ -15,7 +15,7 @@ public class RangeModule {
         this.ultrasonicSensor = hardwareMap.ultrasonicSensor.get("ultra");
     }
 
-    public double getUltrasonicSensor(){
+    public double getDistance(){
         return ultrasonicSensor.getUltrasonicLevel();
     }
 }

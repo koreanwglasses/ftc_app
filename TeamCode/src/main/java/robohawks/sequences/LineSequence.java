@@ -33,7 +33,11 @@ public class LineSequence extends ComplexOperation{
             .then(new WaitOperation() {
                 @Override
                 public void loop(Sequence.Callback callback) {
+                    if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack()) {
+                        callback.next();
+                    } else {
 
+                    }
                 }
             });
     }

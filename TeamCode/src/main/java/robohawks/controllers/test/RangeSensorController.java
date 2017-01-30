@@ -13,18 +13,19 @@ import robohawks.modules.base.RangeModule;
 public class RangeSensorController extends Controller {
 
     Sequence mainSequence;
+    RangeModule rangeModule;
 
     @Override
     public void init() {
-        RangeModule rangeModule = new RangeModule(hardwareMap);
-        double data = rangeModule.getUltrasonicSensor();
-
-        telemetry.addData("Range:\t", Double.toString(data));
+        rangeModule = new RangeModule(hardwareMap);
     }
 
     @Override
     public void loop() {
         super.loop();
+
+        double data = rangeModule.getDistance();
+        telemetry.addData("Range: ", Double.toString(data));
     }
 
 }
