@@ -34,7 +34,7 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
     @Override
     public void start(Sequence.Callback callback) {
         mainSequence = sequencer
-            .begin(driveModule.setHeadingXPOp(0, 1))
+            .begin(driveModule.setHeadingXPOp(0, -1))
             .then(new LoopOperation() {
                 @Override
                 public void loop(Sequence.Callback callback) {
@@ -51,11 +51,11 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
                 if(rangeModule.getDistance() < stopDistance) {
                     callback.next();
                 } else if (colorModule.isLeftWhitenotBlack()) {
-                    driveModule.setHeadingXP(0.3, 0.7);
+                    driveModule.setHeadingXP(0.3, -0.7);
                 } else if (colorModule.isRightWhitenotBlack()) {
-                    driveModule.setHeadingXP(-0.3, 0.7);
+                    driveModule.setHeadingXP(-0.3, -0.7);
                 } else {
-                    driveModule.setHeadingXP(0, 0.7);
+                    driveModule.setHeadingXP(0, -0.7);
                 }
                 }
             });

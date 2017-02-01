@@ -59,6 +59,15 @@ public class ColorModule {
         };
     }
 
+    public Operation isRednotBlueOp(final boolean flip) {
+        return new SimpleOperation() {
+            @Override
+            public void start(Sequence.Callback callback) {
+                callback.next(isRednotBlue() ^ flip);
+            }
+        };
+    }
+
     public boolean isLeftWhitenotBlack() {
         // todo
         return false;
