@@ -1,9 +1,6 @@
 package robohawks.sequences;
 
-import robohawks.async.Operation;
-import robohawks.async.Sequence;
-import robohawks.async.Sequencer;
-import robohawks.async.WaitOperation;
+import robohawks.async.*;
 import robohawks.async.error.ComplexOperation;
 import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
@@ -23,6 +20,7 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
     private boolean foundLine;
 
     private double abortDistance = 0;
+    private double stopDistance = 0;
 
     private Sequence mainSequence;
 
@@ -37,17 +35,30 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
     public void start(Sequence.Callback callback) {
         mainSequence = sequencer
             .begin(driveModule.setHeadingXPOp(0, 1))
-            .then(new WaitOperation() {
+            .then(new LoopOperation() {
                 @Override
                 public void loop(Sequence.Callback callback) {
-                    if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack()) {
-                        callback.next(colorModule.isLeftWhitenotBlack());
-                    } else if (rangeModule.getDistance() < abortDistance) {
-                        callback.err(new ErrorArgs(this));
-                    }
+                if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack()) {
+                    callback.next(colorModule.isLeftWhitenotBlack());
+                } else if (rangeModule.getDistance() < abortDistance) {
+                    callback.err(new ErrorArgs(this));
+                }
                 }
             })
-            .then();
+            .then(new LoopOperation() {
+                @Override
+                public void loop(Sequence.Callback callback) {
+                if(rangeModule.getDistance() < stopDistance) {
+                    callback.next();
+                } else if (colorModule.isLeftWhitenotBlack()) {
+                    driveModule.setHeadingXP(0.3, 0.7);
+                } else if (colorModule.isRightWhitenotBlack()) {
+                    driveModule.setHeadingXP(-0.3, 0.7);
+                } else {
+                    driveModule.setHeadingXP(0, 0.7);
+                }
+                }
+            });
         mainSequence.setErrorHandler(this);
     }
 
