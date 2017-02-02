@@ -3,6 +3,7 @@ package robohawks.modules.base;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.SimpleOperation;
@@ -18,16 +19,20 @@ public class ColorModule {
 
     public ColorModule(HardwareMap hardwareMap){
         buttonSensor = hardwareMap.colorSensor.get("buttonSensor");
-        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
-        lineSensorRight= hardwareMap.colorSensor.get("lineSensorRight");
+        buttonSensor.setI2cAddress(I2cAddr.create8bit(0x40));
+
+//        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
+//        lineSensorLeft.setI2cAddress(I2cAddr.create8bit(0x3e));
+//
+//        lineSensorRight = hardwareMap.colorSensor.get("lineSensorRight");
+//        lineSensorRight.setI2cAddress(I2cAddr.create8bit(0x3c));
     }
 
     public void initialize() {
-        setLight(false);
+        buttonSensor.enableLed(false);
+//        lineSensorLeft.enableLed(true);
+//        lineSensorRight.enableLed(true);
     }
-
-// This "Operation" is just a method—it's instant, and it returns a value. There is no point in making it an asynchronous operation
-//    public Operation getButtonColor() {return new GetColor(this);}
 
     public Color getButtonColor() {
         return Color.fromArgb(buttonSensor.argb());
@@ -35,6 +40,14 @@ public class ColorModule {
 
     public int getColorArgb() {
         return buttonSensor.argb();
+    }
+
+    public Color getLeftColor() {
+        return Color.fromArgb(lineSensorLeft.argb());
+    }
+
+    public Color getRightColor() {
+        return Color.fromArgb(lineSensorRight.argb());
     }
 
     public void setLight(boolean lightOn) {

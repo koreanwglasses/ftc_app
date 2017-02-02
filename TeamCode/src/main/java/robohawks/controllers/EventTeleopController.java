@@ -32,6 +32,8 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
         actuatorModule = new ActuatorModule(hardwareMap);
+
+        actuatorModule.initialize();
     }
 
     @Override

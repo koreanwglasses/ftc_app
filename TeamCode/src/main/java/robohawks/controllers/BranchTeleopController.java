@@ -38,7 +38,8 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
         actuatorModule = new ActuatorModule(hardwareMap);
-//        buttonModule = new ButtonModule(hardwareMap);
+
+        actuatorModule.initialize();
     }
 
     @Override

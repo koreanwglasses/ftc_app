@@ -19,8 +19,8 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
 
     private boolean foundLine;
 
-    private double abortDistance = 0;
-    private double stopDistance = 0;
+    private double abortDistance = 0.100;
+    private double stopDistance = 0.031;
 
     private Sequence mainSequence;
 

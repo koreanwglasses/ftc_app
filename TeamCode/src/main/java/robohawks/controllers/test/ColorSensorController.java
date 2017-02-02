@@ -16,14 +16,16 @@ public class ColorSensorController extends Controller {
     @Override
     public void init() {
         this.colorModule = new ColorModule(hardwareMap);
-        colorModule.setLight(false);
+        colorModule.initialize();
     }
 
     @Override
     public void loop() {
         super.loop();
 
-        telemetry.addData("Color", colorModule.getButtonColor());
+        telemetry.addData("button", colorModule.getButtonColor());
+//        telemetry.addData("left", colorModule.getLeftColor());
+//        telemetry.addData("right", colorModule.getRightColor());
     }
 
 }

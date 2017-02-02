@@ -25,6 +25,9 @@ public class BranchAutonomousController extends Controller {
         ColorModule colorModule = new ColorModule(hardwareMap);
         LaunchModule launchModule = new LaunchModule(hardwareMap);
 
+        actuatorModule.initialize();
+        colorModule.initialize();
+
         LineSequence lineSequence = new LineSequence(sequencer, colorModule, driveModule, rangeModule);
         ButtonSequence buttonSequence = new ButtonSequence(sequencer, actuatorModule, colorModule, true);
         ShootSequence shootSequence = new ShootSequence(sequencer, driveModule, launchModule);
