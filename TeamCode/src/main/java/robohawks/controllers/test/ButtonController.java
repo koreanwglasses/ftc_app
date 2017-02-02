@@ -35,7 +35,7 @@ public class ButtonController extends Controller {
         buttonModule.setServo1(false);
         buttonModule.setServo2(false);
 
-        buttonSequence = new ButtonSequence(sequencer, driveModule, buttonModule, colorModule, true);
+//        buttonSequence = new ButtonSequence(sequencer, driveModule, buttonModule, colorModule, true);
 
         sequence = sequencer.begin(buttonSequence);
     }
