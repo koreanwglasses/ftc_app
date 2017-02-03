@@ -1,14 +1,6 @@
 package robohawks.modules.customDevices;
 
-import android.util.Log;
 import com.qualcomm.robotcore.hardware.*;
-import robohawks.utils.ArrayQueue;
-import robohawks.utils.I2cTransfer;
-
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TransferQueue;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by paarth on 2/2/17.
