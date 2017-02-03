@@ -23,7 +23,6 @@ public class RangeModule {
 
     public double getDistance(){
         rangeCache = reader.read(REG_START, READ_LENGTH);
-
         return (rangeCache[0] & 0xFF) / 255.0;
     }
 }
