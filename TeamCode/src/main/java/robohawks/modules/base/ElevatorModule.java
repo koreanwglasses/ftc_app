@@ -12,6 +12,7 @@ import robohawks.utils.MathX;
 /**
  * Created by paarth on 10/24/16.
  */
+@Deprecated
 public class ElevatorModule {
     private DcMotor elevator;
 
