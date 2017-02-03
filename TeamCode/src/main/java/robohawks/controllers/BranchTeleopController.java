@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
 import robohawks.modules.base.ActuatorModule;
+import robohawks.modules.base.LiftModule;
 import robohawks.utils.MathX;
 import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
@@ -17,6 +18,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     DriveModule driveModule;
     LaunchModule launchModule;
     ActuatorModule actuatorModule;
+    LiftModule liftModule;
 //    ButtonModule buttonModule;
 
     boolean launchTriggerState;
@@ -31,6 +33,8 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
     boolean lActState;
     boolean rActState;
 
+    boolean liftTriggerState;
+
     float threshold = .1f;
 
     @Override
@@ -38,6 +42,7 @@ public class BranchTeleopController extends Controller implements ErrorHandler{
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
         actuatorModule = new ActuatorModule(hardwareMap);
+        liftModule = new LiftModule(hardwareMap);
 
         actuatorModule.initialize();
     }

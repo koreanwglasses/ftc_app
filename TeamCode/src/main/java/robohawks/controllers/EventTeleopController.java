@@ -5,6 +5,7 @@ import robohawks.async.error.ErrorArgs;
 import robohawks.async.error.ErrorHandler;
 import robohawks.async.io.Buttons;
 import robohawks.modules.base.ActuatorModule;
+import robohawks.modules.base.LiftModule;
 import robohawks.utils.MathX;
 import robohawks.async.Sequence;
 import robohawks.modules.base.DriveModule;
@@ -18,6 +19,7 @@ public class EventTeleopController extends TeleopController implements ErrorHand
     DriveModule driveModule;
     LaunchModule launchModule;
     ActuatorModule actuatorModule;
+    LiftModule liftModule;
 
     boolean launchTriggerState;
     double launchPower = 0;
@@ -32,6 +34,7 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         driveModule = new DriveModule(hardwareMap);
         launchModule = new LaunchModule(hardwareMap);
         actuatorModule = new ActuatorModule(hardwareMap);
+        liftModule = new LiftModule(hardwareMap);
 
         actuatorModule.initialize();
     }
@@ -82,6 +85,8 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         launchTriggerState = launchPower > threshold;
         // End LaunchRev
 
+
+
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Power", launchModule.getLaunchPower());
         if(launchPower <= threshold && launchModule.getLaunchPower() > 0) {
@@ -123,6 +128,10 @@ public class EventTeleopController extends TeleopController implements ErrorHand
                     }
                     launchModule.setLoadPower(1);
                     break;
+                case Buttons.dpad_up:
+                    liftModule.setPower(.5);
+                case Buttons.dpad_down:
+                    liftModule.setPower(-.5);
                 default:
                     return false;
             }
@@ -165,6 +174,16 @@ public class EventTeleopController extends TeleopController implements ErrorHand
                         loadDecelSequence.setErrorHandler(this);
                         break;
                     }
+                case Buttons.dpad_up:
+                    if(!gamepad2.dpad_down) {
+                        liftModule.setPower(0);
+                    }
+                    break;
+                case Buttons.dpad_down:
+                    if(!gamepad2.dpad_up) {
+                        liftModule.setPower(0);
+                    }
+                    break;
                 default:
                     return false;
             }
