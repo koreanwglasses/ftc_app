@@ -19,19 +19,22 @@ public class ColorModule {
 
     public ColorModule(HardwareMap hardwareMap){
         buttonSensor = hardwareMap.colorSensor.get("buttonSensor");
-        buttonSensor.setI2cAddress(I2cAddr.create8bit(0x40));
+//        buttonSensor.setI2cAddress(I2cAddr.create8bit(0x40));
+        buttonSensor.setI2cAddress(I2cAddr.create7bit(0x20));
 
-//        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
+        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
 //        lineSensorLeft.setI2cAddress(I2cAddr.create8bit(0x3e));
-//
-//        lineSensorRight = hardwareMap.colorSensor.get("lineSensorRight");
+        lineSensorLeft.setI2cAddress(I2cAddr.create7bit(0x1f));
+
+        lineSensorRight = hardwareMap.colorSensor.get("lineSensorRight");
 //        lineSensorRight.setI2cAddress(I2cAddr.create8bit(0x3c));
+        lineSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
     }
 
     public void initialize() {
         buttonSensor.enableLed(false);
-//        lineSensorLeft.enableLed(true);
-//        lineSensorRight.enableLed(true);
+        lineSensorLeft.enableLed(true);
+        lineSensorRight.enableLed(true);
     }
 
     public Color getButtonColor() {
