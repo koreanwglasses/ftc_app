@@ -40,6 +40,7 @@ public class ActuatorModule {
     }
 
     public void setActuatorLeft(boolean extended){
+        actuator1Extended = extended;
         if(extended){
             actuatorLeft.setPosition(length);
         } else {
@@ -48,6 +49,7 @@ public class ActuatorModule {
     }
 
     public void setActuatorRight(boolean extended) {
+        actuator2Extended = extended;
         if (extended){
             actuatorRight.setPosition(length);
         } else {

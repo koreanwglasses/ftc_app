@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import robohawks.async.Operation;
 import robohawks.async.Sequence;
 import robohawks.async.SimpleOperation;
+import robohawks.modules.customDevices.I2CColorSensor;
 import robohawks.utils.Color;
 
 /**
@@ -18,24 +19,21 @@ public class ColorModule {
     private ColorSensor lineSensorRight;
 
     public ColorModule(HardwareMap hardwareMap){
-        buttonSensor = hardwareMap.colorSensor.get("buttonSensor");
-        buttonSensor.setI2cAddress(I2cAddr.create8bit(0x40));
+        buttonSensor = new I2CColorSensor(hardwareMap, "buttonSensor", I2cAddr.create8bit(0x40));
 
-//        lineSensorLeft = hardwareMap.colorSensor.get("lineSensorLeft");
-//        lineSensorLeft.setI2cAddress(I2cAddr.create8bit(0x3e));
-//
-//        lineSensorRight = hardwareMap.colorSensor.get("lineSensorRight");
-//        lineSensorRight.setI2cAddress(I2cAddr.create8bit(0x3c));
+        lineSensorLeft = new I2CColorSensor(hardwareMap, "lineSensorLeft", I2cAddr.create8bit(0x3e));
+
+        lineSensorRight = new I2CColorSensor(hardwareMap, "lineSensorRight", I2cAddr.create8bit(0x3c));
     }
 
     public void initialize() {
         buttonSensor.enableLed(false);
-//        lineSensorLeft.enableLed(true);
-//        lineSensorRight.enableLed(true);
+        lineSensorLeft.enableLed(true);
+        lineSensorRight.enableLed(true);
     }
 
     public Color getButtonColor() {
-        return Color.fromArgb(buttonSensor.argb());
+        return new Color(buttonSensor.alpha(), buttonSensor.red(), buttonSensor.green(), buttonSensor.blue());
     }
 
     public int getColorArgb() {
@@ -43,11 +41,11 @@ public class ColorModule {
     }
 
     public Color getLeftColor() {
-        return Color.fromArgb(lineSensorLeft.argb());
+        return new Color(lineSensorLeft.alpha(), lineSensorLeft.red(), lineSensorLeft.green(), lineSensorLeft.blue());
     }
 
     public Color getRightColor() {
-        return Color.fromArgb(lineSensorRight.argb());
+        return new Color(lineSensorRight.alpha(), lineSensorRight.red(), lineSensorRight.green(), lineSensorRight.blue());
     }
 
     public void setLight(boolean lightOn) {
