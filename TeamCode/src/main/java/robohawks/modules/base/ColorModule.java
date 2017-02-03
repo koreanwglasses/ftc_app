@@ -18,6 +18,8 @@ public class ColorModule {
     private ColorSensor lineSensorRight;
 
     public ColorModule(HardwareMap hardwareMap){
+        // Program is not recognizing new addresses
+
         buttonSensor = hardwareMap.colorSensor.get("buttonSensor");
 //        buttonSensor.setI2cAddress(I2cAddr.create8bit(0x40));
 //        buttonSensor.setI2cAddress(I2cAddr.create7bit(0x20));
