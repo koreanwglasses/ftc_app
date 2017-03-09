@@ -12,7 +12,7 @@ import robohawks.modules.base.RangeModule;
 /**
  * Created by fchoi on 1/14/2017.
  */
-public class LineSequence extends ComplexOperation implements ErrorHandler{
+public class LineSequencev2 extends ComplexOperation implements ErrorHandler{
 
     private ColorModule colorModule;
     private DriveModule driveModule;
@@ -29,7 +29,7 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
     private ElapsedTime time;
     private double nextCheckTime;
 
-    public LineSequence(Sequencer sequencer, ColorModule colorModule, DriveModule driveModule, RangeModule rangeModule) {
+    public LineSequencev2(Sequencer sequencer, ColorModule colorModule, DriveModule driveModule, RangeModule rangeModule) {
         super(sequencer);
         this.colorModule = colorModule;
         this.driveModule = driveModule;
@@ -41,51 +41,51 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
     @Override
     public void start(final Sequence.Callback callback1) {
         mainSequence = sequencer
-            .begin(driveModule.drive(1, -1, -1))
-            .then(driveModule.setHeadingXPOp(0, -0.25))
-            .then(new LoopOperation() {
-                @Override
-                public void loop(Sequence.Callback callback) {
-                if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack() || rangeModule.getDistance() < abortDistance) {
-                    callback.next(colorModule.isLeftWhitenotBlack());
-                }
+                .begin(driveModule.drive(1, -1, -1))
+                .then(driveModule.setHeadingXPOp(0, -0.25))
+                .then(new LoopOperation() {
+                    @Override
+                    public void loop(Sequence.Callback callback) {
+                        if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack() || rangeModule.getDistance() < abortDistance) {
+                            callback.next(colorModule.isLeftWhitenotBlack());
+                        }
 //                } else if (rangeModule.getDistance() < abortDistance) {
 //                    callback.err(new ErrorArgs(this));
 //                }
-                }
-            })
-//            .then(driveModule.drive(0.5, 0.2, 0.5))
-            .then(new LoopOperation() {
-                @Override
-                public void loop(Sequence.Callback callback) {
-                    if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack()) {
-                        driveModule.setPowerLeft(0);
-                        driveModule.setPowerRight(0);
-                        callback.next();
-                    } else {
-                        driveModule.setPowerLeft(-0.3);
-                        driveModule.setPowerRight(0.3);
                     }
-                }
-            })
-            .then(new LoopOperation() {
-                @Override
-                public void loop(Sequence.Callback callback) {
-                if(rangeModule.getDistance() < stopDistance) {
+                })
+//            .then(driveModule.drive(0.5, 0.2, 0.5))
+                .then(new LoopOperation() {
+                    @Override
+                    public void loop(Sequence.Callback callback) {
+                        if(colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack()) {
+                            driveModule.setPowerLeft(0);
+                            driveModule.setPowerRight(0);
+                            callback.next();
+                        } else {
+                            driveModule.setPowerLeft(0.3);
+                            driveModule.setPowerRight(-0.3);
+                        }
+                    }
+                })
+                .then(new LoopOperation() {
+                    @Override
+                    public void loop(Sequence.Callback callback) {
+                        if(rangeModule.getDistance() < stopDistance) {
 //                    callback1.next();
-                    callback.next();
-                } else if (colorModule.isLeftWhitenotBlack()) {
-                    driveModule.setPowerLeft(0.3);
-                    driveModule.setPowerRight(-0.3);
-                } else if (colorModule.isRightWhitenotBlack()) {
-                    driveModule.setPowerLeft(-0.3);
-                    driveModule.setPowerRight(0.3);
-                } else {
-                    driveModule.setPowerLeft(-0.25);
-                    driveModule.setPowerRight(-0.25);
-                }
-                }
-            });
+                            callback.next();
+                        } else if (colorModule.isLeftWhitenotBlack()) {
+                            driveModule.setPowerLeft(0.3);
+                            driveModule.setPowerRight(-0.3);
+                        } else if (colorModule.isRightWhitenotBlack()) {
+                            driveModule.setPowerLeft(-0.3);
+                            driveModule.setPowerRight(0.3);
+                        } else {
+                            driveModule.setPowerLeft(-0.25);
+                            driveModule.setPowerRight(-0.25);
+                        }
+                    }
+                });
         mainSequence.setErrorHandler(this);
 
         secSequence = sequencer
@@ -93,10 +93,10 @@ public class LineSequence extends ComplexOperation implements ErrorHandler{
                 .then(new LoopOperation() {
                     @Override
                     public void loop(Sequence.Callback callback) {
-                    if(rangeModule.getDistance() < stopDistance) {
-                        callback1.next();
-                        callback.next();
-                    }
+                        if(rangeModule.getDistance() < stopDistance) {
+                            callback1.next();
+                            callback.next();
+                        }
                     }
                 });
 

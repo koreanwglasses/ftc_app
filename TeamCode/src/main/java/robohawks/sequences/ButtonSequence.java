@@ -18,6 +18,9 @@ public class ButtonSequence extends ComplexOperation {
 
     Sequence sequence;
 
+    Sequence leftSequence;
+    Sequence rightSequence;
+
     public ButtonSequence(Sequencer sequencer, ActuatorModule actuatorModule, ColorModule colorModule, boolean rednotBlue) {
         super(sequencer);
 
@@ -29,11 +32,11 @@ public class ButtonSequence extends ComplexOperation {
 
     @Override
     public void start(Sequence.Callback callback) {
-        Sequence leftSequence = sequencer
+        leftSequence = sequencer
                 .create(actuatorModule.setActuatorLeftOp(true))
                 .then(new WaitModule(5500))
                 .then(actuatorModule.setActuatorLeftOp(false));
-        Sequence rightSequence = sequencer
+        rightSequence = sequencer
                 .create(actuatorModule.setActuatorRightOp(true))
                 .then(new WaitModule(5500))
                 .then(actuatorModule.setActuatorRightOp(false));
@@ -44,7 +47,7 @@ public class ButtonSequence extends ComplexOperation {
 
     @Override
     public void loop(Sequence.Callback callback) {
-        if (sequence.isFinished()) {
+        if (leftSequence.isFinished() || rightSequence.isFinished()) {
             stop(callback);
         }
     }

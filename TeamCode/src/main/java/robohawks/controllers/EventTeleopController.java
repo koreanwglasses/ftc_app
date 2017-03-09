@@ -85,8 +85,6 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         launchTriggerState = launchPower > threshold;
         // End LaunchRev
 
-
-
         telemetry.addData("Heading", x + ", " + p);
         telemetry.addData("Power", launchModule.getLaunchPower());
         if(launchPower <= threshold && launchModule.getLaunchPower() > 0) {
@@ -104,10 +102,10 @@ public class EventTeleopController extends TeleopController implements ErrorHand
         if(controller == 1) {
             switch (buttonCode) {
                 case Buttons.dpad_up:
-                    launchModule.setFeedPower(0.3);
+                    liftModule.setPower(.5);
                     break;
                 case Buttons.dpad_down:
-                    launchModule.setFeedPower(-0.3);
+                    liftModule.setPower(-.5);
                     break;
                 default:
                     return false;
@@ -129,9 +127,11 @@ public class EventTeleopController extends TeleopController implements ErrorHand
                     launchModule.setLoadPower(1);
                     break;
                 case Buttons.dpad_up:
-                    liftModule.setPower(.5);
+                    launchModule.setFeedPower(0.3);
+                    break;
                 case Buttons.dpad_down:
-                    liftModule.setPower(-.5);
+                    launchModule.setFeedPower(-0.3);
+                    break;
                 default:
                     return false;
             }
@@ -145,12 +145,12 @@ public class EventTeleopController extends TeleopController implements ErrorHand
             switch (buttonCode) {
                 case Buttons.dpad_up:
                     if(!gamepad1.dpad_down) {
-                        launchModule.setFeedPower(0);
+                        liftModule.setPower(0);
                     }
                     break;
                 case Buttons.dpad_down:
                     if(!gamepad1.dpad_up) {
-                        launchModule.setFeedPower(0);
+                        liftModule.setPower(0);
                     }
                     break;
                 case Buttons.y:
@@ -176,12 +176,12 @@ public class EventTeleopController extends TeleopController implements ErrorHand
                     }
                 case Buttons.dpad_up:
                     if(!gamepad2.dpad_down) {
-                        liftModule.setPower(0);
+                        launchModule.setFeedPower(0);
                     }
                     break;
                 case Buttons.dpad_down:
                     if(!gamepad2.dpad_up) {
-                        liftModule.setPower(0);
+                        launchModule.setFeedPower(0);
                     }
                     break;
                 default:

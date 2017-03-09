@@ -80,12 +80,10 @@ public class ColorModule {
     }
 
     public boolean isLeftWhitenotBlack() {
-        // todo
-        return false;
+        return getLeftColor().a > 10;
     }
 
     public boolean isRightWhitenotBlack() {
-        // todo
-        return false;
+        return getRightColor().a > 10;
     }
 }

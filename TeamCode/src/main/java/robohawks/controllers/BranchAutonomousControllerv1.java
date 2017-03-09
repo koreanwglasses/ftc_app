@@ -12,17 +12,18 @@ import robohawks.sequences.ShootSequence;
  * Created by paarth on 1/28/17.
  */
 
-@Autonomous(name = "BranchAutonomousController")
-public class BranchAutonomousController extends Controller {
+@Autonomous(name = "BranchAutonomousControllerv1")
+public class BranchAutonomousControllerv1 extends Controller {
 
     Sequence sequence;
+    ColorModule colorModule;
 
     @Override
     public void init() {
         ActuatorModule actuatorModule = new ActuatorModule(hardwareMap);
         DriveModule driveModule = new DriveModule(hardwareMap);
         RangeModule rangeModule = new RangeModule(hardwareMap);
-        ColorModule colorModule = new ColorModule(hardwareMap);
+        colorModule = new ColorModule(hardwareMap);
         LaunchModule launchModule = new LaunchModule(hardwareMap);
 
         actuatorModule.initialize();
@@ -36,5 +37,12 @@ public class BranchAutonomousController extends Controller {
             .begin(lineSequence)
             .then(buttonSequence)
             .then(shootSequence);
+    }
+
+    @Override
+    public void loop() {
+        super.loop();
+
+        telemetry.addData("White", colorModule.isLeftWhitenotBlack() || colorModule.isRightWhitenotBlack());
     }
 }
